@@ -1,0 +1,12 @@
+# Cursor ve Editor dosyaları
+.cursor/
+.vscode/
+
+# macOS gereksiz dosyaları
+__MACOSX/
+.DS_Store
+
+# Log ve geçici dosyalar
+*.log
+tmp/
+
