@@ -1,0 +1,11 @@
+@media (min-width: 768px) {
+  .gruplar li {
+    width: 25.33%;
+  }
+  .gruplar.onerow li {
+    width: 41%;
+  }
+  .urunler li {
+    width: 41%;
+  }
+}

@@ -1,0 +1,582 @@
+.page.rezervasyon {
+  --resv-bg: #f8fafc;
+  --resv-card: #ffffff;
+  --resv-border: #e2e8f0;
+  --resv-text: #1e293b;
+  --resv-muted: #64748b;
+  --resv-accent: var(--backbtncolor, #f68933);
+  --resv-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --resv-radius-xl: 20px;
+  --resv-radius-lg: 12px;
+  --resv-radius: 10px;
+  --resv-gap: 16px;
+
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: #f8fafc; /* Sayfa arka planı */
+}
+
+.resv-wrap {
+  --resv-bg: #f8fafc;
+  --resv-card: #ffffff;
+  --resv-border: #e2e8f0;
+  --resv-text: #1e293b;
+  --resv-muted: #64748b;
+  --resv-accent: var(--backbtncolor, #f68933);
+  --resv-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --resv-radius-xl: 20px;
+  --resv-radius-lg: 12px;
+  --resv-radius: 10px;
+  --resv-accent: var(--backbtncolor, #f68933);
+  --resv-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --resv-radius-xl: 20px;
+  --resv-radius-lg: 12px;
+  --resv-radius: 10px;
+  --resv-gap: 16px;
+
+  width: 100%;
+  min-height: 100%;
+  padding: 10px 20px 120px 20px; /* Üst boşluğu 10px'e düşürdüm */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.resv-card {
+  width: min(980px, 100%);
+  background: var(--resv-card);
+  border: 1px solid var(--resv-border);
+  box-shadow: var(--resv-shadow);
+  border-radius: var(--resv-radius-xl);
+  padding: clamp(20px, 4vw, 32px);
+  color: var(--resv-text);
+  position: relative;
+  overflow: hidden;
+}
+
+.resv-head {
+  margin-bottom: 24px;
+}
+
+.resv-title {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  display: flex; 
+  align-items: center; 
+  gap: 12px;
+  color: var(--resv-accent);
+  font-weight: 700;
+}
+
+.resv-sub {
+  margin: 0;
+  color: var(--resv-muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.resv-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--resv-gap);
+  margin-top: 24px;
+}
+
+@media (min-width: 720px) {
+  .resv-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .resv-field--full { grid-column: 1 / -1; }
+}
+
+.resv-field { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 6px; 
+}
+
+.resv-header-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.resv-label-static {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--resv-muted);
+}
+
+.resv-link-btn {
+  background: #f1f5f9;
+  border: 1px solid var(--resv-border);
+  color: var(--resv-accent);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.resv-link-btn:hover {
+  background: #fff;
+  border-color: var(--resv-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Floating Label Wrapper */
+.resv-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Maske görünürlüğü: SADECE focus (tıklanma) anında görünsün */
+.resv-input::placeholder {
+  opacity: 0 !important;
+  transition: opacity 0.2s ease;
+}
+
+.resv-input:focus::placeholder {
+  opacity: 0.6 !important;
+}
+
+.resv-floating-label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--resv-card);
+  padding: 0 8px;
+  color: var(--resv-muted);
+  font-size: 15px;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.resv-textarea + .resv-floating-label {
+  top: 24px;
+  transform: none;
+}
+
+.resv-input,
+.resv-textarea,
+.resv-select {
+  appearance: none;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent !important;
+  border: 1.5px solid var(--resv-border);
+  color: var(--resv-text);
+  border-radius: var(--resv-radius);
+  padding: 14px 16px;
+  font: inherit;
+  outline: none;
+  transition: all .2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.resv-select-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--resv-muted);
+  pointer-events: none;
+  font-size: 14px;
+  z-index: 1;
+}
+
+/* Select için Floating Label Animasyonu */
+.resv-select:focus + .resv-floating-label,
+.resv-select:not([value=""]) + .resv-floating-label,
+.resv-select:valid + .resv-floating-label {
+  top: 0;
+  left: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--resv-accent);
+  background: var(--resv-card);
+  transform: translateY(-50%);
+}
+
+/* Animasyon: Focus olunca veya içerik doluyken */
+.resv-input:focus + .resv-floating-label,
+.resv-input:not(:placeholder-shown) + .resv-floating-label,
+.resv-textarea:focus + .resv-floating-label,
+.resv-textarea:not(:placeholder-shown) + .resv-floating-label {
+  top: 0;
+  left: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--resv-accent);
+  background: var(--resv-card);
+  transform: translateY(-50%);
+}
+
+.resv-input:focus,
+.resv-textarea:focus {
+  border-color: var(--resv-accent);
+  box-shadow: 0 0 0 4px rgba(var(--backbtncolorrgb, 246, 137, 51), 0.15);
+}
+
+.resv-textarea { resize: vertical; min-height: 100px; }
+
+/* Consent checkbox */
+.resv-consent {
+  margin-top: 8px;
+}
+
+.resv-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--resv-muted);
+}
+
+.resv-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--resv-accent);
+}
+
+/* Actions */
+.resv-actions {
+  display: flex; 
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  align-items: center;
+}
+
+.resv-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--resv-radius);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  border: none;
+}
+
+.resv-btn--primary {
+  background: var(--resv-accent);
+  color: #fff;
+}
+
+.resv-btn--primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.resv-btn--ghost {
+  background: #f1f5f9;
+  color: var(--resv-muted);
+}
+
+.resv-btn--ghost:hover {
+  background: #e2e8f0;
+  color: var(--resv-text);
+}
+
+@media (max-width: 480px) {
+  .resv-actions {
+    flex-direction: row;
+  }
+}
+
+/* Modal Stilleri */
+.resv-modal {
+  display: none;
+  position: fixed;
+  z-index: 10001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.resv-modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: resvFadeIn 0.3s ease;
+}
+
+@keyframes resvFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.resv-modal-content {
+  background-color: var(--resv-card);
+  border-radius: var(--resv-radius-xl);
+  width: min(800px, 100%);
+  max-height: 90vh;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.resv-modal-header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--resv-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resv-modal-header h3 {
+  margin: 0;
+  color: var(--resv-accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resv-modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--resv-muted);
+}
+
+.resv-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.resv-map-container {
+  position: relative;
+  width: 100%;
+  border-radius: var(--resv-radius);
+  overflow: hidden;
+  border: 1px solid var(--resv-border);
+}
+
+.resv-map-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.resv-map-zone {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+/* Şık Etiket (İkon + Yazı) */
+.resv-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 50px;
+  border: 1.5px solid rgba(var(--backbtncolorrgb, 112, 126, 79), 0.4);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  white-space: nowrap;
+  position: relative;
+}
+
+.resv-tag i {
+  color: var(--resv-accent);
+  font-size: 14px;
+}
+
+/* Hover Durumları */
+.resv-map-zone:hover .resv-tag {
+  transform: scale(1.1);
+  background: var(--resv-accent);
+  border-color: #fff;
+  color: #fff;
+}
+
+.resv-map-zone:hover .resv-tag i {
+  color: #fff;
+}
+
+/* Seçilen Alanın Arka Planını Hafif Aydınlat */
+.resv-map-zone:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+}
+
+/* Nabız Efekti (Tag etrafında hafif bir ışıltı) */
+.resv-tag::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50px;
+  border: 2px solid var(--resv-accent);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.resv-map-zone:hover .resv-tag::after {
+  animation: resvTagPulse 1.5s infinite;
+}
+
+.resv-header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Galeri Modalı Özel Stilleri */
+.resv-modal-content--gallery {
+  width: min(1000px, 95vw);
+  background: #fff; /* Beyaz arka plan */
+  border: 1px solid var(--resv-border);
+}
+
+.resv-modal-content--gallery .resv-modal-header {
+  background: #fff;
+  border-bottom: 1px solid var(--resv-border);
+}
+
+.resv-modal-content--gallery .resv-modal-header h3 {
+  color: var(--resv-accent);
+}
+
+.resv-modal-content--gallery .resv-modal-close--gallery {
+  color: var(--resv-muted);
+}
+
+.resv-modal-body--gallery {
+  padding: 0;
+  background: #fff;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.resv-gallery-slider {
+  width: 100%;
+  height: 100%;
+}
+
+.resv-gallery-slider .swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.resv-gallery-slider .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Okları ve noktaları light tema için güncelleyelim */
+.resv-gallery-slider .swiper-button-next,
+.resv-gallery-slider .swiper-button-prev {
+  width: 50px;
+  height: 50px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 50%;
+  color: var(--resv-accent);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+
+.resv-gallery-slider .swiper-button-next:after,
+.resv-gallery-slider .swiper-button-prev:after {
+  font-size: 20px;
+}
+
+.resv-gallery-slider .swiper-button-next:hover,
+.resv-gallery-slider .swiper-button-prev:hover {
+  background: var(--resv-accent);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.resv-gallery-slider .swiper-pagination-bullet {
+  background: var(--resv-muted);
+  opacity: 0.3;
+}
+
+.resv-gallery-slider .swiper-pagination-bullet-active {
+  background: var(--resv-accent);
+  opacity: 1;
+  width: 24px;
+  border-radius: 10px;
+}
+
+@media (max-width: 480px) {
+  .resv-modal-body--gallery {
+    height: 50vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .resv-header-inline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .resv-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .resv-modal-body--gallery {
+    height: 40vh;
+  }
+}
+
+.resv-modal-hint {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--resv-muted);
+}
+
+@keyframes resvFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}

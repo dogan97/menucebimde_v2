@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="tr-TR">
+
+<head>
+  <title>Louis Chocolate Cafe | menucebimde.com</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <!--<meta http-equiv="cache-control" content="no-cache" />-->
+  <meta http-equiv="expires" content="0" />
+  <!--<meta http-equiv="pragma" content="no-cache" />-->
+
+  <link rel="icon" type="image/png" sizes="256x256" href="v2/assets/img/fav.png">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Louis Chocolate Cafe | menucebimde.com">
+  <meta name="description" content="Karekod Menü - ">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://menucebimde.com/?menuid=1FAIPW">
+  <meta property="og:title" content="Louis Chocolate Cafe | menucebimde.com">
+  <meta property="og:description" content="Karekod Menü - ">
+  <meta property="og:image" content="https://menucebimde.com/_imgs/1FAIPW-ncover-MT2DW.JPG">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://menucebimde.com/?menuid=1FAIPW">
+  <meta property="twitter:title" content="Louis Chocolate Cafe | menucebimde.com">
+  <meta property="twitter:description" content="Karekod Menü - ">
+  <meta property="twitter:image" content="https://menucebimde.com/_imgs/1FAIPW-ncover-MT2DW.JPG">
+
+
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/swiper.min.css" />
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/slick.css" />
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/mainnav.css" />
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/tema5.css" />
+
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/font-awesome.min.cssx"/>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/fontawesome.min.css"
+    integrity="sha512-M5Kq4YVQrjg5c2wsZSn27Dkfm/2ALfxmun0vUE3mPiJyK53hQBHYCVAtvMYEC7ZXmYLg8DVG4tF8gD27WmDbsg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/animate.min.css" />
+  <link rel="stylesheet" type="text/css" href="v2/assets/fontawesome/css/all.min.css">
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"> -->
+
+  <!-- turntable -->
+  <link rel="stylesheet" type="text/css" href="v2/assets/turntable/css/turntable.min.css"/>
+  <!-- <link rel="stylesheet" href="https://unpkg.com/turntable-js/css/turntable.min.css"> -->
+
+
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/style.css?v=1758060643" />
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/responsive.css?v=1758060643" />
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/aboutus.css" />
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/rezervasyon.css" />
+  <link rel="stylesheet" type="text/css" href="v2/assets/css/etkinlikler.css" />
+
+
+
+  <!-- öneçıkanstyle -->
+  <link rel="stylesheet" href="onecikanlar.css?v=1758060643" />
+
+
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NZMWCK5Z1T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-NZMWCK5Z1T');
+  </script>
+
+
+</head>
+
+<body>
+
+  <video autoplay muted loop id="myVideo">
+    <source src="le.mp4x" type="video/mp4">
+  </video>
+
+  <style>
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+    }
+  </style>
+
+
+
+  <div class="loader"><i class="fa fa-spinner fa-spin"></i></div>
+  <div class="page overlay"></div>
+  <div class="page campaign" style="display:none;">
+    <a href="" class="camp_exit"><i class="fa fa-times"></i></a>
+    <span class="camp_time"></span>
+    <div class="camp_bg"><img src="" /></div>
+  </div>
+  <div class="page campaign2" style="display:none;">
+    <a href="" class="camp_exit2"><i class="fa fa-times"></i></a>
+    <span class="camp_time2"></span>
+    <div class="camp_bg2"></div>
+  </div>
+  <div id="app"></div>
+  <div style="display:none">Güncel menümüze buradan ulaşabilirsiniz. menucebimde uygulaması ile de menümüzü istediğiniz
+    zaman inceleyebilirsiniz.<br></div>
+  <div class="page orient" style="background-color:#263090">
+    <div>
+      <h4 style="font-size: 32px;">Louis Chocolate Cafe</h4><img src="v2/assets/img/orient_img.png"
+        alt="" /><span>Lütfen cihazınızı dik konumda kullanınız.</span>
+    </div>
+  </div>
+  <script type="text/javascript">
+    // URL'den menuid parametresini al
+    function getUrlParameter(name) {
+      var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+      return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+    
+    var masaID = 0;
+    var menuID = getUrlParameter('menuid') || "4KGISK"; // URL'den al, yoksa default kullan
+    var mBack = 1;
+    var referer = "";
+    var referrer = "";
+    var mver = "v2";
+    var mtoken = "";
+    var mporty = "0"
+    var grpcount;
+    var portyurnid = 248174;
+    var portyappdiv = '<div class="badges"><a href="https://app.adjust.com/i6c4s4v?campaign=mc&adgroup=mc&creative=mc&label=user_id" target="_blank" id="portyiosurl"><img src="v2/assets/img/badge.as.png"></a><a href="https://app.adjust.com/i6c4s4v?campaign=mc&adgroup=mc&creative=mc&label=user_id" target="_blank" id="portyandurl"><img src="v2/assets/img/badge.gp.png"></a></div>'
+    var dfimgindex = ''
+    var appopen = ''
+    var uagentx = ''
+    
+    // Debug: Hangi menuid kullanıldığını konsola yaz
+    console.log('Yüklenen Menu ID:', menuID);
+
+  </script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/2.0.3/jquery.mobile-events.min.js"></script>
+  <!-- <script type="text/javascript" src="v2/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="v2/assets/js/jquery.mobile-events.min.js"></script> -->
+  <script type="text/javascript" src="v2/assets/js/swiper.min.v8.js"></script>
+
+  <script type="text/javascript" src="v2/assets/turntable/js/turntable.js"></script>
+  <script type="text/javascript" src="v2/assets/circlr/circlr.js"></script>
+
+  <script type="text/javascript" src="v2/assets/js/is.min.js"></script>
+
+
+  <script type="text/javascript" src="v2/assets/js/slick.min.js"></script>
+  <script type="text/javascript" src="v2/assets/js/alertify.js"></script>
+  <script type="text/javascript" src="v2/assets/js/language.js"></script>
+  <script type="text/javascript" src="v2/assets/js/staticFile.js"></script>
+  <script type="text/javascript" src="v2/assets/js/static_html.js"></script>
+  <script type="text/javascript" src="v2/assets/js/funcs.js"></script>
+  <!-- <script type="text/javascript" src="v2/assets/js/siparis.js"></script> -->
+  <script type="text/javascript" src="v2/assets/js/slider.js"></script>
+  <script type="text/javascript" src="onecikan_scipt.js"></script>
+  <script type="text/javascript" src="v2/assets/js/pinchZoom.js"></script>
+  <!-- <script type="text/javascript" src="v2/assets/js/complete.js"></script> -->
+  <script type="text/javascript" src="v2/assets/js/appOnEvent.js"></script>
+  <script type="text/javascript" src="v2/assets/js/aboutus.js"></script>
+  <script type="text/javascript" src="v2/assets/js/rezervasyon_ekstra.js"></script>
+  <script type="text/javascript" src="v2/assets/js/etkinlikler.js"></script>
+  <script type="text/javascript" src="v2/assets/js/main.js"></script>
+  <!-- <script type="text/javascript" src="v2/assets/js/style_extension.js"></script> -->
+  <script type="text/javascript" src="v2/assets/js/menu/menu_main.js"></script>
+
+
+
+
+
+
+
+  <script>
+
+    var uagent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36';
+
+    if (menuID == "C2D1B7") {
+      //alert('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36')
+      //alertMe({ msg: 'ua-Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36' })
+    };
+
+
+
+
+
+
+
+
+
+    //showCamp('{img:"https://menucebimde.com/admin/imgs/R9LII7-kcover-SV2GHMR55QH6WZ3M8OOV.JPG",time:5}');
+    //showCamp('{"time":5,"img":"https://menucebimde.com/admin/imgs/R9LII7-kcover-SV2GHMR55QH6WZ3M8OOV.JPG"}');
+
+
+  </script>
+  <style>
+
+
+
+
+
+
+
+
+
+
+
+
+  </style>
+
+
+  <style>
+
+  </style>
+
+</body>
+
+</html>

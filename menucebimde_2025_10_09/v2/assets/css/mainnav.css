@@ -1,0 +1,37 @@
+.mainbottom-container {
+  display: none; /*flex gelcek*/
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;  /*yukarıdan boşluk */
+}
+
+.mainbottom-nav {
+  display: flex;
+  gap: 15px;
+  background: transparent;  /*arka plan şeffaf */
+  padding: 10px;
+}
+
+.mainbottom-navbtn {
+  background: rgba(255, 255, 255, 0.1);  /*yarı şeffaf daire*/ 
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: #263090;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);  /*cam efekti */
+  cursor: pointer;
+}
+
+.mainbottom-navbtn:hover,
+.mainbottom-navbtn.mainbottom-navbtn-active {
+  background: rgba(4, 241, 91, 0.3);
+  color: #263090;
+  transform: scale(1.1);
+  border-color: rgba(0, 123, 255, 0.6);
+}
