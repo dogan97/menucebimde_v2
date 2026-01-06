@@ -146,7 +146,7 @@
   border-radius: 12px;
   margin-bottom: 24px;
   position: relative;
-  border: 1px dashed var(--resv-accent);
+  border: 1px solid var(--resv-accent); /* Sabit ve güvenilir görünüm için solid yaptık */
 }
 
 .resv-event-card.hide { display: none; }

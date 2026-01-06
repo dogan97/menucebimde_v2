@@ -102,40 +102,46 @@
   gap: 6px; 
 }
 
-.resv-header-inline {
+/* Masa Tipi Üst Aksiyonlar (Galeri & Yerleşim Düzeni) */
+.resv-inline-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2px;
+  gap: 12px;
+  margin-bottom: 15px;
+  margin-top: 5px;
 }
 
-.resv-label-static {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--resv-muted);
-}
-
-.resv-link-btn {
-  background: #f1f5f9;
-  border: 1px solid var(--resv-border);
-  color: var(--resv-accent);
+.resv-action-btn {
+  flex: 1; /* Butonlar eşit genişlikte ve yan yana ferah durur */
+  background: #ffffff;
+  border: 1.5px solid var(--resv-border);
+  color: var(--resv-text);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: var(--resv-radius);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-.resv-link-btn:hover {
-  background: #fff;
+.resv-action-btn i {
+  color: var(--resv-accent);
+  font-size: 15px;
+}
+
+.resv-action-btn:hover {
   border-color: var(--resv-accent);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.resv-action-btn:active {
+  transform: scale(0.98);
 }
 
 /* Floating Label Wrapper */
@@ -249,6 +255,53 @@
   cursor: pointer;
   font-size: 14px;
   color: var(--resv-muted);
+}
+
+.resv-link {
+  color: var(--resv-accent);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.resv-kvkk-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--resv-text);
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.resv-kvkk-text h4 {
+  margin: 16px 0 8px 0;
+  color: var(--resv-accent);
+  font-size: 15px;
+}
+
+.resv-kvkk-text p {
+  margin-bottom: 12px;
+}
+
+.resv-modal-footer {
+  padding: 16px;
+  border-top: 1px solid var(--resv-border);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.resv-modal-close-btn {
+  background: var(--resv-accent);
+  color: #fff;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.resv-modal-close-btn:hover {
+  opacity: 0.9;
 }
 
 .resv-check input[type="checkbox"] {
@@ -390,71 +443,60 @@
   display: block;
 }
 
-.resv-map-zone {
-  position: absolute;
+/* Bölge Seçim Kartları */
+.resv-map-selection {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.resv-map-card {
+  background: #f8fafc;
+  border: 1.5px solid var(--resv-border);
+  padding: 12px;
+  border-radius: 6px; /* Radius 6px'e çekildi */
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-/* Şık Etiket (İkon + Yazı) */
-.resv-tag {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 50px;
-  border: 1.5px solid rgba(var(--backbtncolorrgb, 112, 126, 79), 0.4);
-  font-size: 13px;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  white-space: nowrap;
-  position: relative;
-}
-
-.resv-tag i {
+.resv-map-card i {
   color: var(--resv-accent);
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.resv-map-card span {
   font-size: 14px;
+  font-weight: 600;
+  color: var(--resv-text);
 }
 
-/* Hover Durumları */
-.resv-map-zone:hover .resv-tag {
-  transform: scale(1.1);
-  background: var(--resv-accent);
-  border-color: #fff;
-  color: #fff;
+.resv-map-card:hover {
+  border-color: var(--resv-accent);
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.resv-map-zone:hover .resv-tag i {
-  color: #fff;
+.resv-map-card:active {
+  transform: scale(0.98);
 }
 
-/* Seçilen Alanın Arka Planını Hafif Aydınlat */
-.resv-map-zone:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
+@media (min-width: 600px) {
+  .resv-map-selection {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-/* Nabız Efekti (Tag etrafında hafif bir ışıltı) */
-.resv-tag::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 50px;
-  border: 2px solid var(--resv-accent);
-  opacity: 0;
-  transition: all 0.3s;
-}
-
-.resv-map-zone:hover .resv-tag::after {
-  animation: resvTagPulse 1.5s infinite;
+.resv-modal-hint {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--resv-muted);
 }
 
 .resv-header-actions {
@@ -554,15 +596,13 @@
 }
 
 @media (max-width: 480px) {
-  .resv-header-inline {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+  .resv-inline-actions {
+    gap: 8px;
   }
   
-  .resv-header-actions {
-    width: 100%;
-    justify-content: space-between;
+  .resv-action-btn {
+    padding: 10px 8px;
+    font-size: 12px;
   }
 
   .resv-modal-body--gallery {

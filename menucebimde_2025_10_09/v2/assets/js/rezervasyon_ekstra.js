@@ -23,8 +23,9 @@ $(document).ready(function() {
         }
     });
 
-    // Akıllı Bağlantı: Bölgeye tıklandığında dropdown güncelleme
-    $(document).on('click', '.resv-map-zone', function() {
+    // Akıllı Bağlantı: Kartlara tıklandığında dropdown güncelleme
+    $(document).on('tap click', '.resv-map-card', function(e) {
+        e.preventDefault();
         const selectedZone = $(this).data('type');
         const $select = $('#resv-table-type');
 
@@ -72,6 +73,22 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#galleryModal', function(e) {
+        if ($(e.target).hasClass('resv-modal')) {
+            $(this).removeClass('show');
+        }
+    });
+
+    // --- KVKK Modalı Yönetimi ---
+    $(document).on('click', '#open-kvkk', function(e) {
+        e.preventDefault();
+        $('#kvkkModal').addClass('show');
+    });
+
+    $(document).on('click', '#kvkkModal .resv-modal-close, #kvkkModal .resv-modal-close-btn', function() {
+        $('#kvkkModal').removeClass('show');
+    });
+
+    $(document).on('click', '#kvkkModal', function(e) {
         if ($(e.target).hasClass('resv-modal')) {
             $(this).removeClass('show');
         }

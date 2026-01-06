@@ -253,16 +253,25 @@ var rezervasyon = `
                   <h4 id="resvEventTitle">Etkinlik Adı</h4>
                   <p id="resvEventPrice">0.00 TL</p>
                 </div>
-                <button type="button" id="btnRemoveEvent" class="resv-event-remove">
-                  <i class="fas fa-times"></i>
-                </button>
               </div>
 
       <div class="resv-grid">
         <div class="resv-field">
           <div class="resv-input-wrapper">
-            <input id="resv-people" name="people" type="number" min="1" step="1" value="2" required class="resv-input" placeholder=" ">
+            <select id="resv-people" name="people" required class="resv-input resv-select">
+              <option value="1">1 Kişi</option>
+              <option value="2" selected>2 Kişi</option>
+              <option value="3">3 Kişi</option>
+              <option value="4">4 Kişi</option>
+              <option value="5">5 Kişi</option>
+              <option value="6">6 Kişi</option>
+              <option value="7">7 Kişi</option>
+              <option value="8">8 Kişi</option>
+              <option value="9">9 Kişi</option>
+              <option value="10">10 Kişi</option>
+            </select>
             <label for="resv-people" class="resv-floating-label">Kişi Sayısı</label>
+            <i class="fas fa-chevron-down resv-select-icon"></i>
           </div>
         </div>
 
@@ -281,16 +290,13 @@ var rezervasyon = `
         </div>
 
         <div class="resv-field resv-field--full">
-          <div class="resv-header-inline">
-            <label for="resv-table-type" class="resv-label-static">Masa Tipi / Tercihi</label>
-            <div class="resv-header-actions">
-              <button type="button" id="btnShowGallery" class="resv-link-btn">
-                <i class="fas fa-images"></i> Galeri
-              </button>
-              <button type="button" id="btnShowSeatingPlan" class="resv-link-btn">
-                <i class="fas fa-map-marked-alt"></i> Yerleşim Düzeni
-              </button>
-            </div>
+          <div class="resv-inline-actions">
+            <button type="button" id="btnShowGallery" class="resv-action-btn">
+              <i class="fas fa-images"></i> Galeri
+            </button>
+            <button type="button" id="btnShowSeatingPlan" class="resv-action-btn">
+              <i class="fas fa-map-marked-alt"></i> Yerleşim Düzeni
+            </button>
           </div>
           <div class="resv-input-wrapper">
             <select id="resv-table-type" name="table_type" required class="resv-input resv-select">
@@ -324,7 +330,7 @@ var rezervasyon = `
         <div class="resv-field resv-field--full resv-consent">
           <label class="resv-check">
             <input type="checkbox" name="consent" required>
-            <span>Bilgilerimin rezervasyon için kullanılmasını onaylıyorum.</span>
+            <span><a href="javascript:void(0)" id="open-kvkk" class="resv-link">Kişisel Verilerin Korunması Kanunu</a> kapsamında verilerimin işlenmesini ve tarafıma bilgilendirme yapılmasını kabul ediyorum.</span>
           </label>
         </div>
       </div>
@@ -340,6 +346,37 @@ var rezervasyon = `
     </form>
   </section>
 
+  <!-- KVKK Modal -->
+  <div id="kvkkModal" class="resv-modal">
+    <div class="resv-modal-content">
+      <div class="resv-modal-header">
+        <h3><i class="fas fa-user-shield"></i> KVKK Aydınlatma Metni</h3>
+        <button type="button" class="resv-modal-close">&times;</button>
+      </div>
+      <div class="resv-modal-body">
+        <div class="resv-kvkk-text">
+          <h4>1. Veri Sorumlusu</h4>
+          <p>6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca, kişisel verileriniz; veri sorumlusu olarak restoran işletmemiz tarafından aşağıda açıklanan kapsamda işlenebilecektir.</p>
+          
+          <h4>2. Kişisel Verilerin İşlenme Amacı</h4>
+          <p>Toplanan kişisel verileriniz (ad-soyad, telefon, e-posta), rezervasyon talebinizin alınması, masanızın ayrılması, gerektiğinde sizinle iletişime geçilmesi ve hizmet kalitemizin artırılması amaçlarıyla işlenmektedir.</p>
+          
+          <h4>3. İşlenen Kişisel Verilerin Aktarımı</h4>
+          <p>Kişisel verileriniz, yasal yükümlülüklerin yerine getirilmesi amacıyla yetkili kamu kurum ve kuruluşları dışında üçüncü şahıslarla paylaşılmamaktadır.</p>
+          
+          <h4>4. Kişisel Veri Toplamanın Yöntemi ve Hukuki Sebebi</h4>
+          <p>Kişisel verileriniz, rezervasyon formu aracılığıyla elektronik ortamda, "ilgili kişinin temel hak ve özgürlüklerine zarar vermemek kaydıyla, veri sorumlusunun meşru menfaatleri için veri işlenmesinin zorunlu olması" hukuki sebebine dayalı olarak toplanmaktadır.</p>
+          
+          <h4>5. İlgili Kişinin Hakları</h4>
+          <p>KVKK’nın 11. maddesi uyarınca; verilerinizin işlenip işlenmediğini öğrenme, işlenmişse bilgi talep etme, silinmesini veya düzeltilmesini isteme gibi haklara sahipsiniz.</p>
+        </div>
+      </div>
+      <div class="resv-modal-footer">
+        <button type="button" class="resv-modal-close-btn">Anladım</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Yerleşim Düzeni Modal -->
   <div id="seatingModal" class="resv-modal">
     <div class="resv-modal-content">
@@ -350,33 +387,35 @@ var rezervasyon = `
       <div class="resv-modal-body">
         <div class="resv-map-container">
           <img src="v2/assets/img/seating-plan.png" alt="Yerleşim Düzeni" id="seatingImage">
-          <!-- Akıllı Etiketler -->
-          <div class="resv-map-zone" data-type="garden" style="top: 40%; left: 15%; width: 25%; height: 20%;">
-            <div class="resv-tag">
-              <i class="fas fa-leaf"></i>
-              <span>Bahçe</span>
-            </div>
+        </div>
+        
+        <div class="resv-map-selection">
+          <div class="resv-map-card" data-type="garden">
+            <i class="fas fa-leaf"></i>
+            <span>Bahçe Tarafı</span>
           </div>
-          <div class="resv-map-zone" data-type="inside" style="top: 55%; left: 45%; width: 25%; height: 20%;">
-            <div class="resv-tag">
-              <i class="fas fa-chair"></i>
-              <span>İç Mekan</span>
-            </div>
+          <div class="resv-map-card" data-type="stage">
+            <i class="fas fa-music"></i>
+            <span>Sahne Önü</span>
           </div>
-          <div class="resv-map-zone" data-type="stage" style="top: 25%; left: 65%; width: 25%; height: 20%;">
-            <div class="resv-tag">
-              <i class="fas fa-music"></i>
-              <span>Sahne</span>
-            </div>
+          <div class="resv-map-card" data-type="balcony">
+            <i class="fas fa-level-up-alt"></i>
+            <span>Balkon Katı</span>
           </div>
-          <div class="resv-map-zone" data-type="vip" style="top: 75%; left: 75%; width: 20%; height: 20%;">
-            <div class="resv-tag">
-              <i class="fas fa-glass-martini-alt"></i>
-              <span>VIP / Bar</span>
-            </div>
+          <div class="resv-map-card" data-type="window">
+            <i class="fas fa-border-all"></i>
+            <span>Pencere Kenarı</span>
+          </div>
+          <div class="resv-map-card" data-type="vip">
+            <i class="fas fa-glass-martini-alt"></i>
+            <span>VIP Loca</span>
+          </div>
+          <div class="resv-map-card" data-type="inside">
+            <i class="fas fa-chair"></i>
+            <span>İç Mekan</span>
           </div>
         </div>
-        <p class="resv-modal-hint">Bölge seçmek için üzerine tıklayabilirsiniz.</p>
+        <p class="resv-modal-hint">Lütfen rezervasyon yapmak istediğiniz bölgeyi seçiniz.</p>
       </div>
     </div>
   </div>

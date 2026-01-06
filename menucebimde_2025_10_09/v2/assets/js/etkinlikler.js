@@ -79,12 +79,5 @@ $(document).ready(function() {
             console.error("loadPage fonksiyonu bulunamadı!");
         }
     });
-
-    // Rezervasyondan etkinliği kaldır butonu
-    $(document).on('click', '#btnRemoveEvent', function() {
-        selectedEvent = null;
-        setupRezervasyonWithEvent();
-        $('#resv-notes').val('');
-    });
 });
 
