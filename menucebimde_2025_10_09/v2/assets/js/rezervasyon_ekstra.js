@@ -23,19 +23,21 @@ $(document).ready(function() {
         }
     });
 
-    // Akıllı Bağlantı: Kartlara tıklandığında dropdown güncelleme
-    $(document).on('tap click', '.resv-map-card', function(e) {
-        e.preventDefault();
-        const selectedZone = $(this).data('type');
-        const $select = $('#resv-table-type');
-
-        if ($select.length) {
-            $select.val(selectedZone).trigger('change');
-            $select.focus();
+    // --- Tab Geçişleri (Zemin Kat / 1. Kat) ---
+    $(document).on('click', '.resv-tab-btn', function() {
+        const target = $(this).data('target');
+        
+        // Butonları güncelle
+        $('.resv-tab-btn').removeClass('active');
+        $(this).addClass('active');
+        
+        // Panelleri güncelle
+        $('.resv-map-pane').removeClass('active');
+        if (target === 'ground') {
+            $('#map-ground').addClass('active');
+        } else {
+            $('#map-first').addClass('active');
         }
-
-        $('#seatingModal').removeClass('show');
-        console.log("Seçilen Bölge: " + selectedZone);
     });
 
     // --- Galeri Modalı Yönetimi ---

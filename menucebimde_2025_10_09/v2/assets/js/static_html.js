@@ -385,37 +385,19 @@ var rezervasyon = `
         <button type="button" class="resv-modal-close">&times;</button>
       </div>
       <div class="resv-modal-body">
+        <div class="resv-tabs">
+          <button type="button" class="resv-tab-btn active" data-target="ground">Zemin Kat</button>
+          <button type="button" class="resv-tab-btn" data-target="first">1. Kat</button>
+        </div>
         <div class="resv-map-container">
-          <img src="v2/assets/img/seating-plan.png" alt="Yerleşim Düzeni" id="seatingImage">
-        </div>
-        
-        <div class="resv-map-selection">
-          <div class="resv-map-card" data-type="garden">
-            <i class="fas fa-leaf"></i>
-            <span>Bahçe Tarafı</span>
+          <div id="map-ground" class="resv-map-pane active">
+            <img src="v2/assets/img/yerlesim-1.png" alt="Zemin Kat Yerleşim Düzeni">
           </div>
-          <div class="resv-map-card" data-type="stage">
-            <i class="fas fa-music"></i>
-            <span>Sahne Önü</span>
-          </div>
-          <div class="resv-map-card" data-type="balcony">
-            <i class="fas fa-level-up-alt"></i>
-            <span>Balkon Katı</span>
-          </div>
-          <div class="resv-map-card" data-type="window">
-            <i class="fas fa-border-all"></i>
-            <span>Pencere Kenarı</span>
-          </div>
-          <div class="resv-map-card" data-type="vip">
-            <i class="fas fa-glass-martini-alt"></i>
-            <span>VIP Loca</span>
-          </div>
-          <div class="resv-map-card" data-type="inside">
-            <i class="fas fa-chair"></i>
-            <span>İç Mekan</span>
+          <div id="map-first" class="resv-map-pane">
+            <img src="v2/assets/img/yerlesim-2.png" alt="1. Kat Yerleşim Düzeni">
           </div>
         </div>
-        <p class="resv-modal-hint">Lütfen rezervasyon yapmak istediğiniz bölgeyi seçiniz.</p>
+        <p class="resv-modal-hint">Katlar arasında geçiş yaparak yerleşim düzenini inceleyebilirsiniz.</p>
       </div>
     </div>
   </div>

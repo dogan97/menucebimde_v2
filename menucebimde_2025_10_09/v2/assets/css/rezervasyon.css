@@ -616,6 +616,78 @@
   color: var(--resv-muted);
 }
 
+/* Tabs Styling */
+.resv-tabs {
+  display: flex;
+  gap: 10px;
+  justify-content: center; /* Butonları ortaladık */
+  margin-bottom: 10px; /* Margin'i azalttık */
+  border-bottom: 1px solid var(--resv-border);
+  padding-bottom: 10px; /* Alt boşluğu azalttık */
+}
+
+.resv-tab-btn {
+  background: #f8f9fa;
+  border: 1px solid var(--resv-border);
+  padding: 6px 20px; /* Padding'i azalttık */
+  border-radius: 4px; /* Radius'u çok küçük yaptık */
+  font-size: 13px; /* Fontu küçülttük */
+  font-weight: 600;
+  color: var(--resv-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px; /* Çok daralmaması için minimum genişlik */
+}
+
+.resv-tab-btn.active {
+  background: var(--resv-accent);
+  border-color: var(--resv-accent);
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(var(--backbtncolorrgb, 246, 137, 51), 0.2);
+}
+
+.resv-map-pane {
+  display: none;
+  animation: resvFadeIn 0.3s ease;
+}
+
+.resv-map-pane.active {
+  display: block;
+}
+
+/* Yerleşim Düzeni Modal Özel Boyutlandırma */
+#seatingModal .resv-modal-content {
+  width: min(1000px, 95%);
+  max-height: 95vh;
+}
+
+#seatingModal .resv-modal-body {
+  padding: 0; /* İç boşluğu tamamen sıfırladık */
+  overflow-x: hidden;
+}
+
+#seatingModal .resv-tabs {
+  padding: 10px 20px 5px 20px; /* Üst ve alt boşlukları azalttık */
+  margin-bottom: 0;
+}
+
+#seatingModal .resv-map-container {
+  width: 100%;
+  background: #fff;
+}
+
+#seatingModal .resv-map-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 0; /* Tam oturması için radius'u kaldırdık */
+  display: block;
+}
+
+#seatingModal .resv-modal-hint {
+  padding: 15px 20px;
+  margin-top: 0;
+}
+
 @keyframes resvFadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
