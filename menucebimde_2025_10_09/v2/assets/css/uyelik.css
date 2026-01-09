@@ -1,0 +1,202 @@
+/* 
+ * Üyelik Sayfası Özel Stilleri
+ * Senior UI/UX Yaklaşımıyla Hazırlanmıştır
+ */
+
+.page.uyelik {
+    background-color: #f8fafc;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Ana Ekran Banner Tasarımı */
+.membership-banner {
+    position: absolute;
+    bottom: 120px; /* Porty bannerı varsa üstüne çıksın */
+    left: 20px;
+    right: 20px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 100;
+    border: 1px solid rgba(var(--backbtncolorrgb, 246, 137, 51), 0.2);
+    cursor: pointer;
+}
+
+.membership-banner:active {
+    transform: scale(0.98);
+}
+
+.mb-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mb-icon {
+    width: 45px;
+    height: 45px;
+    background: var(--backbtncolor, #f68933);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(var(--backbtncolorrgb, 246, 137, 51), 0.3);
+}
+
+.mb-text {
+    flex: 1;
+}
+
+.mb-text h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.mb-text p {
+    margin: 2px 0 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.mb-btn {
+    background: #f1f5f9;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: var(--resv-accent);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mb-btn:hover {
+    background: var(--resv-accent);
+    color: #fff;
+}
+
+/* Üyelik Formu Özelleştirmeleri */
+.uyelik-card {
+    border-top: 4px solid var(--resv-accent);
+}
+
+.uyelik-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(var(--backbtncolorrgb, 246, 137, 51), 0.1);
+    color: var(--resv-accent);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mbr-hint {
+    display: block;
+    margin-top: 4px;
+    color: var(--resv-muted);
+    font-style: italic;
+    font-size: 11px;
+}
+
+/* Başarı Ekranı / Dijital Kart */
+.member-card-wrapper {
+    margin-top: 20px;
+    perspective: 1000px;
+}
+
+.member-card {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    height: 200px;
+    background: linear-gradient(135deg, var(--resv-accent) 0%, #2c3e50 100%);
+    border-radius: 16px;
+    padding: 25px;
+    color: #fff;
+    position: relative;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    overflow: hidden;
+    text-align: left;
+}
+
+.member-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: rotate(45deg);
+    pointer-events: none;
+}
+
+.mc-logo {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+}
+
+.mc-chip {
+    width: 40px;
+    height: 30px;
+    background: #f1c40f;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.mc-number {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.mc-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.mc-name {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.mc-label {
+    font-size: 10px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    display: block;
+}
+
+.mc-rank {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+}
+

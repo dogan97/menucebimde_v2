@@ -1,16 +1,22 @@
-.page.rezervasyon {
+body {
   --resv-bg: #f8fafc;
   --resv-card: #ffffff;
   --resv-border: #e2e8f0;
   --resv-text: #1e293b;
   --resv-muted: #64748b;
-  --resv-accent: var(--backbtncolor, #f68933);
   --resv-shadow: 0 4px 20px rgba(0,0,0,0.08);
   --resv-radius-xl: 20px;
   --resv-radius-lg: 12px;
   --resv-radius: 10px;
   --resv-gap: 16px;
+}
 
+/* Accent rengini projenin ana renginden alsın - Tüm modallar ve yeni sayfalar için */
+#successResvModal, .page.rezervasyon, .page.uyelik {
+  --resv-accent: var(--backbtncolor, #f68933);
+}
+
+.page.rezervasyon {
   width: 100%;
   height: 100%;
   left: 0;
@@ -23,23 +29,6 @@
 }
 
 .resv-wrap {
-  --resv-bg: #f8fafc;
-  --resv-card: #ffffff;
-  --resv-border: #e2e8f0;
-  --resv-text: #1e293b;
-  --resv-muted: #64748b;
-  --resv-accent: var(--backbtncolor, #f68933);
-  --resv-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  --resv-radius-xl: 20px;
-  --resv-radius-lg: 12px;
-  --resv-radius: 10px;
-  --resv-accent: var(--backbtncolor, #f68933);
-  --resv-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  --resv-radius-xl: 20px;
-  --resv-radius-lg: 12px;
-  --resv-radius: 10px;
-  --resv-gap: 16px;
-
   width: 100%;
   min-height: 100%;
   padding: 10px 20px 120px 20px; /* Üst boşluğu 10px'e düşürdüm */
@@ -389,8 +378,10 @@
 }
 
 .resv-modal-content {
-  background-color: var(--resv-card);
-  border-radius: var(--resv-radius-xl);
+  background-color: #ffffff; /* Fallback */
+  background-color: var(--resv-card, #ffffff);
+  border-radius: 20px; /* Fallback */
+  border-radius: var(--resv-radius-xl, 20px);
   width: min(800px, 100%);
   max-height: 90vh;
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
@@ -401,7 +392,8 @@
 
 .resv-modal-header {
   padding: 12px 20px;
-  border-bottom: 1px solid var(--resv-border);
+  border-bottom: 1px solid #e2e8f0; /* Fallback */
+  border-bottom: 1px solid var(--resv-border, #e2e8f0);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -409,7 +401,8 @@
 
 .resv-modal-header h3 {
   margin: 0;
-  color: var(--resv-accent);
+  color: #f68933; /* Fallback */
+  color: var(--resv-accent, #f68933);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -420,7 +413,8 @@
   border: none;
   font-size: 28px;
   cursor: pointer;
-  color: var(--resv-muted);
+  color: #64748b; /* Fallback */
+  color: var(--resv-muted, #64748b);
 }
 
 .resv-modal-body {
@@ -686,6 +680,219 @@
 #seatingModal .resv-modal-hint {
   padding: 15px 20px;
   margin-top: 0;
+}
+
+/* Başarı ve Hızlı Üyelik Modalı */
+.success-modal-content {
+  text-align: center;
+  padding: 0;
+  background: #fdfdfd;
+}
+
+.success-header {
+  padding: 30px 20px;
+  background: #fff;
+}
+
+.success-icon-wrap {
+  font-size: 60px;
+  color: #2ecc71;
+  margin-bottom: 15px;
+  animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.success-header h2 {
+  margin: 0;
+  color: var(--resv-text);
+  font-size: 24px;
+}
+
+.success-header p {
+  color: var(--resv-muted);
+  margin-top: 5px;
+}
+
+.quick-signup-card {
+  margin: 0 20px 20px 20px;
+  background: #fff;
+  border: 1px solid var(--resv-border);
+  border-radius: 12px;
+  padding: 25px 20px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+}
+
+.quick-signup-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  color: var(--resv-text);
+}
+
+.quick-signup-card p {
+  font-size: 14px;
+  color: var(--resv-muted);
+  line-height: 1.5;
+}
+
+.signup-info-display {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--resv-text);
+  font-weight: 600;
+}
+
+.info-item i {
+  color: var(--resv-accent);
+}
+
+.communication-prefs h4 {
+  font-size: 15px;
+  margin-bottom: 15px;
+  color: var(--resv-text);
+}
+
+.prefs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pref-item {
+  cursor: pointer;
+}
+
+.pref-item input {
+  display: none;
+}
+
+.pref-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 2px solid var(--resv-border);
+  border-radius: 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  background: #fff;
+}
+
+.pref-content i {
+  font-size: 20px;
+  color: var(--resv-muted);
+  transition: all 0.2s;
+}
+
+.pref-content span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--resv-muted);
+  transition: all 0.2s;
+}
+
+/* Seçili durum için özel gösterge (Check ikonu) */
+.pref-content::after {
+  content: '\f058'; /* fa-check-circle */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #fff;
+  color: var(--resv-accent);
+  font-size: 18px;
+  line-height: 1;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s;
+}
+
+.pref-item input:checked + .pref-content {
+  border-color: var(--resv-accent);
+  background: rgba(var(--backbtncolorrgb, 246, 137, 51), 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(var(--backbtncolorrgb, 246, 137, 51), 0.12);
+}
+
+.pref-item input:checked + .pref-content i,
+.pref-item input:checked + .pref-content span {
+  color: var(--resv-accent);
+}
+
+.pref-item input:checked + .pref-content::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.pref-item:hover .pref-content {
+  border-color: var(--resv-accent);
+  background: #fcfcfc;
+}
+
+.signup-consent {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.signup-submit-btn {
+  width: 100%;
+  background: var(--resv-accent);
+  color: #fff;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.2s;
+}
+
+.signup-submit-btn:active {
+  transform: scale(0.98);
+}
+
+.signup-note {
+  margin-top: 12px;
+  font-size: 12px !important;
+  color: #e67e22 !important;
+  font-weight: 600;
+}
+
+.success-footer {
+  padding-bottom: 25px;
+}
+
+.btn-close-success {
+  background: none;
+  border: none;
+  color: var(--resv-muted);
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 @keyframes resvFadeIn {

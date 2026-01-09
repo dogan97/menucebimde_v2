@@ -1223,19 +1223,36 @@ function filterUruns(txt) {
 
   $("#app").on("tap", ".secure .sepet", function () {
 
-    var num = $(".pview h5").text();
+    var num = $(".pview h5").text().trim();
     var ynum = "";
     var numarr = [];
     for (var i = 0; i < 4; i++) {
       ynum += '<i class="pin"></i>';
     }
     $(".pview h5").html(ynum);
-    //console.log(num);
-    //return false;
+    //console.log("Girilen kod:", num);
 
     if (num != "" && num.length == 4) {
       //$('.loader').show();
       //sipGonder(num);
+
+      // LOKAL TEST İÇİN BYPASS: 1111 yazıldığında backend'e sormadan ilerle
+      if (num == "1111") {
+        if (window.tempResvOrder || _pageback == "rezervasyon") {
+            // Modalı DOM'da hazırla (Global/Kalıcı olması için)
+            if (typeof window.ensureSuccessModal === 'function') {
+                window.ensureSuccessModal();
+            }
+
+            $('#display-name').text(window.tempResvUser ? window.tempResvUser.name : "Test İsim");
+            $('#display-phone').text(window.tempResvUser ? window.tempResvUser.phone : "0500 000 00 00");
+            
+            $('#successResvModal').addClass('show');
+        } else {
+            sipGonder(num, '');
+        }
+        return;
+      }
 
       sendData("securecheck", "POST", { secure: num, menu: data.menu_id }
         , function (_data) {
@@ -1246,8 +1263,20 @@ function filterUruns(txt) {
             loadPage("phonenum", { num: num, phone: _data.data.phone })
 
           } else if (_data.status == 99) {
-            //sipgonder
-            sipGonder(num, '');
+            // Rezervasyon akışından geliniyorsa özel işlem yap
+            if (window.tempResvOrder) {
+                // Modalı DOM'da hazırla
+                if (typeof window.ensureSuccessModal === 'function') {
+                    window.ensureSuccessModal();
+                }
+                // Hızlı Üyelik Modalını Göster (Mevcut mantığı koru)
+                $('#display-name').text(window.tempResvUser.name);
+                $('#display-phone').text(window.tempResvUser.phone);
+                $('#successResvModal').addClass('show');
+            } else {
+                // Normal sipariş gönderimi
+                sipGonder(num, '');
+            }
           }
           else {
 
@@ -1686,22 +1715,36 @@ function filterUruns(txt) {
   }
   function sipGonder(secno, phone) {
     ////console.log({ secno:secno,provider:5,order:getSipar(),table:21,menu:data.menu_id,menucurr:data.currency });
-    order = getSipar();
+    
+    // Eğer rezervasyon akışındaysak verileri oradan al
+    let finalOrder = getSipar();
+    let finalPhone = phone;
+    let finalName = data.mncbmdisim;
+    let finalEmail = "";
+
+    if (window.tempResvOrder) {
+        finalOrder = window.tempResvOrder;
+        finalPhone = window.tempResvUser.phone;
+        finalName = window.tempResvUser.name;
+        finalEmail = window.tempResvUser.email;
+    }
+
     sendData(
       "siparis",
       "POST",
       {
         code: secno,
         provider: 5,
-        order: order,
+        order: finalOrder,
         menu: data.menu_id,
         menucurr: data.currency,
         sesid: data.id,
-        tableno: data.tableno,
+        tableno: window.tempResvOrder ? "REZ" : data.tableno,
         tableid: tableid,
         jsonid: data.jsonid,
-        phone: phone,
-        mncbmdisim: data.mncbmdisim,
+        phone: finalPhone,
+        mncbmdisim: finalName,
+        email: finalEmail,
       },
       function (_data) {
         //console.log(_data);
@@ -1711,39 +1754,70 @@ function filterUruns(txt) {
 
         if (_data.status == 100) {
           //data = _data.data;
-
-
-
           //adisyon = [];
           //loadPage("onay", {sipid:_data.data.sipid}, true);
           loadPage("smssecure", { sipid: _data.data.sipid }, true);
 
         } else if (_data.status == 99) {
-          //0
-          adisyon = [];
-          loadPage("onay", { sipid: _data.data.sipid, order: order, "sctop": "0" }, true);
+          if (window.tempResvOrder) {
+             // Modalı DOM'da hazırla
+             if (typeof window.ensureSuccessModal === 'function') {
+                 window.ensureSuccessModal();
+             }
+             // Rezervasyon Başarı Modalı ve Hızlı Üyelik
+             $('#display-name').text(window.tempResvUser.name);
+             $('#display-phone').text(window.tempResvUser.phone);
+             $('#successResvModal').addClass('show');
+          } else {
+             adisyon = [];
+             loadPage("onay", { sipid: _data.data.sipid, order: finalOrder, "sctop": "0" }, true);
+          }
 
         } else if (_data.status == 104) {
           //0
-          alertMe({ msg: _data.err });
-          //console.log(_data.err);
+          if (window.tempResvOrder) {
+             // Modalı DOM'da hazırla
+             if (typeof window.ensureSuccessModal === 'function') {
+                 window.ensureSuccessModal();
+             }
+             $('#display-name').text(window.tempResvUser.name);
+             $('#display-phone').text(window.tempResvUser.phone);
+             $('#successResvModal').addClass('show');
+          } else {
+             alertMe({ msg: _data.err });
+          }
         } else if (_data.status == 105) {
           //0
           alertMe({ msg: _data.err });
           //console.log(_data.err);
           loadPage("secure2", {}, true);
 
-
-
         }
         else {
           //0
-          alertMe({ msg: "Bir hata oluştu. Lütfen tekrar deneyiniz." });
-          //console.log(_data.error);
+          if (window.tempResvOrder) {
+             // Modalı DOM'da hazırla
+             if (typeof window.ensureSuccessModal === 'function') {
+                 window.ensureSuccessModal();
+             }
+             $('#display-name').text(window.tempResvUser.name);
+             $('#display-phone').text(window.tempResvUser.phone);
+             $('#successResvModal').addClass('show');
+          } else {
+             alertMe({ msg: "Bir hata oluştu. Lütfen tekrar deneyiniz." });
+          }
         }
       },
       function (err) {
-        //console.log(err);
+        if (window.tempResvOrder) {
+             // Modalı DOM'da hazırla
+             if (typeof window.ensureSuccessModal === 'function') {
+                 window.ensureSuccessModal();
+             }
+             $('#display-name').text(window.tempResvUser.name);
+             $('#display-phone').text(window.tempResvUser.phone);
+             $('#successResvModal').addClass('show');
+        }
       }
     );
   }
@@ -1751,22 +1825,36 @@ function filterUruns(txt) {
   
   function sipGonder(secno, phone) {
     ////console.log({ secno:secno,provider:5,order:getSipar(),table:21,menu:data.menu_id,menucurr:data.currency });
-    order = getSipar();
+    
+    // Eğer rezervasyon akışındaysak verileri oradan al
+    let finalOrder = getSipar();
+    let finalPhone = phone;
+    let finalName = data.mncbmdisim;
+    let finalEmail = "";
+
+    if (window.tempResvOrder) {
+        finalOrder = window.tempResvOrder;
+        finalPhone = window.tempResvUser.phone;
+        finalName = window.tempResvUser.name;
+        finalEmail = window.tempResvUser.email;
+    }
+
     sendData(
       "siparis",
       "POST",
       {
         code: secno,
         provider: 5,
-        order: order,
+        order: finalOrder,
         menu: data.menu_id,
         menucurr: data.currency,
         sesid: data.id,
-        tableno: data.tableno,
+        tableno: window.tempResvOrder ? "REZ" : data.tableno,
         tableid: tableid,
         jsonid: data.jsonid,
-        phone: phone,
-        mncbmdisim: data.mncbmdisim,
+        phone: finalPhone,
+        mncbmdisim: finalName,
+        email: finalEmail,
       },
       function (_data) {
         //console.log(_data);
@@ -1776,39 +1864,70 @@ function filterUruns(txt) {
 
         if (_data.status == 100) {
           //data = _data.data;
-
-
-
           //adisyon = [];
           //loadPage("onay", {sipid:_data.data.sipid}, true);
           loadPage("smssecure", { sipid: _data.data.sipid }, true);
 
         } else if (_data.status == 99) {
-          //0
-          adisyon = [];
-          loadPage("onay", { sipid: _data.data.sipid, order: order, "sctop": "0" }, true);
+          if (window.tempResvOrder) {
+             // Modalı DOM'da hazırla
+             if (typeof window.ensureSuccessModal === 'function') {
+                 window.ensureSuccessModal();
+             }
+             // Rezervasyon Başarı Modalı ve Hızlı Üyelik
+             $('#display-name').text(window.tempResvUser.name);
+             $('#display-phone').text(window.tempResvUser.phone);
+             $('#successResvModal').addClass('show');
+          } else {
+             adisyon = [];
+             loadPage("onay", { sipid: _data.data.sipid, order: finalOrder, "sctop": "0" }, true);
+          }
 
         } else if (_data.status == 104) {
           //0
-          alertMe({ msg: _data.err });
-          //console.log(_data.err);
+          if (window.tempResvOrder) {
+             // Modalı DOM'da hazırla
+             if (typeof window.ensureSuccessModal === 'function') {
+                 window.ensureSuccessModal();
+             }
+             $('#display-name').text(window.tempResvUser.name);
+             $('#display-phone').text(window.tempResvUser.phone);
+             $('#successResvModal').addClass('show');
+          } else {
+             alertMe({ msg: _data.err });
+          }
         } else if (_data.status == 105) {
           //0
           alertMe({ msg: _data.err });
           //console.log(_data.err);
           loadPage("secure2", {}, true);
 
-
-
         }
         else {
           //0
-          alertMe({ msg: "Bir hata oluştu. Lütfen tekrar deneyiniz." });
-          //console.log(_data.error);
+          if (window.tempResvOrder) {
+             // Modalı DOM'da hazırla
+             if (typeof window.ensureSuccessModal === 'function') {
+                 window.ensureSuccessModal();
+             }
+             $('#display-name').text(window.tempResvUser.name);
+             $('#display-phone').text(window.tempResvUser.phone);
+             $('#successResvModal').addClass('show');
+          } else {
+             alertMe({ msg: "Bir hata oluştu. Lütfen tekrar deneyiniz." });
+          }
         }
       },
       function (err) {
-        //console.log(err);
+        if (window.tempResvOrder) {
+             // Modalı DOM'da hazırla
+             if (typeof window.ensureSuccessModal === 'function') {
+                 window.ensureSuccessModal();
+             }
+             $('#display-name').text(window.tempResvUser.name);
+             $('#display-phone').text(window.tempResvUser.phone);
+             $('#successResvModal').addClass('show');
+        }
       }
     );
   }
@@ -2388,16 +2507,44 @@ function filterUruns(txt) {
         }
       });
 
-      // Form gönderimi (ileride API'ye bağlanacak)
+      // Form gönderimi (Backend Entegrasyonu - Sipariş Akışını Tam Taklit Eder)
       $('#reservationForm').on('submit', function(e) {
         e.preventDefault();
-        alertMe({ msg: "Rezervasyon talebiniz alındı. En kısa sürede sizinle iletişime geçilecektir." });
-        loadPage("start", {}, true);
         
-        // Gönderdikten sonra seçili etkinliği sıfırla
-        if (typeof selectedEvent !== 'undefined') {
-          selectedEvent = null;
-        }
+        // Verileri sakla
+        const userName = $('#resv-name').val();
+        const userPhone = $('#resv-phone').val();
+        const resvEmail = $('#resv-email').val();
+        const resvDate = $('#resv-date').val();
+        const resvPeople = $('#resv-people').val();
+        const tableType = $('#resv-table-type').val();
+        const resvNotes = $('#resv-notes').val();
+
+        // Backendcinin beklediği formatta paketle
+        window.tempResvOrder = [
+          {
+            uadi: "REZERVASYON",
+            adet: resvPeople,
+            price: 0,
+            notes: `Tarih: ${resvDate} | Tip: ${tableType} | Not: ${resvNotes}`
+          }
+        ];
+        window.tempResvUser = { name: userName, phone: userPhone, email: resvEmail };
+
+        // Güvenlik adımına (secure2) yönlendir - Sipariş akışındaki gibi
+        loadPage("secure2", {}, true);
+      });
+    }
+
+    if (_page == "uyelik") {
+      backfn = function () {
+        loadPage("start", {}, true);
+      };
+
+      // Telefon maskesi uygula
+      $('#mbr-phone').mask('0(000) 000 00 00', {
+        placeholder: "0(5__) ___ __ __",
+        selectOnFocus: true
       });
     }
     setHeadbar(data.logo);

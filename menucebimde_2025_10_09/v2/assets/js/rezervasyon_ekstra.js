@@ -6,6 +6,24 @@
 $(document).ready(function() {
     console.log("Rezervasyon Ekstra JS Yüklendi.");
 
+    /**
+     * Başarı modalının DOM'da olduğundan emin olur (Global/Kalıcı olması için)
+     */
+    window.ensureSuccessModal = function() {
+        // Eğer modal zaten varsa içeriğini sıfırla (formu geri getir)
+        if ($('#successResvModal').length > 0) {
+            $('#successResvModal').remove();
+        }
+        
+        if (typeof resvSuccessModalHtml !== 'undefined') {
+            $('body').append(resvSuccessModalHtml);
+            console.log("Başarı modalı taze haliyle eklendi.");
+        }
+    };
+
+    // Uygulama yüklendiğinde modalı hazırla
+    window.ensureSuccessModal();
+
     // --- Yerleşim Düzeni Modalı Yönetimi ---
     $(document).on('click', '#btnShowSeatingPlan', function(e) {
         e.preventDefault();
@@ -94,5 +112,51 @@ $(document).ready(function() {
         if ($(e.target).hasClass('resv-modal')) {
             $(this).removeClass('show');
         }
+    });
+
+    // --- Başarı ve Hızlı Üyelik Modalı Yönetimi ---
+    $(document).on('click', '.btn-close-success', function() {
+        $('#successResvModal').removeClass('show');
+        
+        // Hafızayı temizle
+        window.tempResvOrder = null;
+        window.tempResvUser = null;
+
+        if (typeof window.loadPage === 'function') {
+            window.loadPage("start", {}, true);
+        }
+    });
+
+    $(document).on('submit', '#quickSignupForm', function(e) {
+        e.preventDefault();
+        
+        // Form verilerini al (Simülasyon)
+        const prefs = {
+            sms: $('input[name="pref_sms"]').is(':checked'),
+            email: $('input[name="pref_email"]').is(':checked'),
+            call: $('input[name="pref_call"]').is(':checked')
+        };
+        
+        console.log("Üyelik oluşturuluyor...", prefs);
+        
+        // Başarı mesajı göster
+        $(this).html(`
+            <div class="signup-success-msg" style="padding: 20px; color: #2ecc71; font-weight: 600; text-align: center;">
+                <i class="fas fa-check-double" style="font-size: 32px; margin-bottom: 10px; display: block;"></i>
+                Üyeliğiniz başarıyla oluşturuldu!<br>
+                Şifreniz SMS ile iletilmiştir.
+            </div>
+        `);
+        
+        // Hafızayı temizle
+        window.tempResvOrder = null;
+        window.tempResvUser = null;
+
+        setTimeout(() => {
+            $('#successResvModal').removeClass('show');
+            if (typeof window.loadPage === 'function') {
+                window.loadPage("start", {}, true);
+            }
+        }, 3000);
     });
 });

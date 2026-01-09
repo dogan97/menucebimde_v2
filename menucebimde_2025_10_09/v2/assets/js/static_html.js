@@ -174,6 +174,23 @@ var start =
     <div class="vers">`+ vs + `</div>
     <div class="tableno"></div>
     <div class="description" style="display:none"></div>
+    
+    <!-- Membership/Loyalty Banner -->
+    <div class="membership-banner animate__animated animate__fadeInUp">
+      <div class="mb-content">
+        <div class="mb-icon">
+          <i class="fas fa-crown"></i>
+        </div>
+        <div class="mb-text">
+          <h4>VIP Ayrıcalık Dünyası</h4>
+          <p>Özel indirimler ve sürpriz ikramlar sizi bekliyor.</p>
+        </div>
+        <button type="button" class="mb-btn btn-go-membership">
+          <span>Keşfet</span>
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
     </div>`;
 //<div class="gomain"><a><i class="fa fa-cutlery"></i> Sipariş Ver</a></div>\
 
@@ -315,8 +332,8 @@ var rezervasyon = `
 
         <div class="resv-field resv-field--full">
           <div class="resv-input-wrapper">
-            <input id="resv-email" name="email" type="email" class="resv-input" placeholder=" ">
-            <label for="resv-email" class="resv-floating-label">E-posta (İsteğe Bağlı)</label>
+            <input id="resv-email" name="email" type="email" class="resv-input" placeholder=" " required>
+            <label for="resv-email" class="resv-floating-label">E-posta</label>
           </div>
         </div>
 
@@ -425,7 +442,84 @@ var rezervasyon = `
       </div>
     </div>
   </div>
+
 </div>`; 
+
+var resvSuccessModalHtml = `
+  <!-- Başarı ve Hızlı Üyelik Modalı -->
+  <div id="successResvModal" class="resv-modal">
+    <div class="resv-modal-content success-modal-content">
+      <div class="success-header">
+        <div class="success-icon-wrap">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>Rezervasyonunuz Alındı!</h2>
+        <p>En kısa sürede sizinle iletişime geçeceğiz.</p>
+      </div>
+      
+      <div class="quick-signup-card">
+        <h3>Hızlı Üyelik Oluşturun</h3>
+        <p>Bilgilerinizle üyeliğinizi hemen tamamlayın, size özel avantajlardan ve kampanyalardan haberdar olun!</p>
+        
+        <form id="quickSignupForm">
+          <div class="signup-info-display">
+            <div class="info-item">
+              <i class="fas fa-user"></i>
+              <span id="display-name">Ad Soyad</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-phone"></i>
+              <span id="display-phone">Telefon</span>
+            </div>
+          </div>
+
+          <div class="communication-prefs">
+            <h4>İletişim Tercihleriniz</h4>
+            <div class="prefs-grid">
+              <label class="pref-item">
+                <input type="checkbox" name="pref_sms" checked>
+                <div class="pref-content">
+                  <i class="fas fa-sms"></i>
+                  <span>SMS</span>
+                </div>
+              </label>
+              <label class="pref-item">
+                <input type="checkbox" name="pref_email" checked>
+                <div class="pref-content">
+                  <i class="fas fa-envelope"></i>
+                  <span>E-Posta</span>
+                </div>
+              </label>
+              <label class="pref-item">
+                <input type="checkbox" name="pref_call" checked>
+                <div class="pref-content">
+                  <i class="fas fa-phone-alt"></i>
+                  <span>Arama</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="signup-consent">
+            <label class="resv-check">
+              <input type="checkbox" name="signup_consent" required>
+              <span>Üyelik sözleşmesini ve kişisel verilerimin pazarlama amaçlı işlenmesini kabul ediyorum.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="signup-submit-btn">
+            <span>Üyeliği Tamamla</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <p class="signup-note">* Şifreniz telefonunuza SMS ile iletilecektir.</p>
+        </form>
+      </div>
+
+      <div class="success-footer">
+        <button type="button" class="btn-close-success">Şimdi Değil, Ana Sayfaya Dön</button>
+      </div>
+    </div>
+  </div>`; 
 
 var main =
     `<div class="menus"><div></div></div>\
@@ -833,3 +927,100 @@ if (_page == "main") {
   // diğer tema (1-4) için mevcut kod burada devam etsin
 }
     */
+
+var uyelik = `
+<div class="page wthead uyelik">
+    <div class="bottom">
+    <div class="backbtn"></div>
+    <div class="sepet">
+      <h2><i class="fas fa-user-plus"></i> ÜYELİK</h2>
+    </div>
+  </div>
+  <div class="headbar">` + navmenu + navbtn + `<img src="v2/assets/img/small-noimg.jpg" />` + navsplash2 + navsplash + `</div>
+
+  <section class="resv-wrap uyelik-wrap">
+    <div class="resv-card uyelik-card">
+      <header class="resv-head">
+        <div class="uyelik-badge"><i class="fas fa-crown"></i> VIP Üyelik</div>
+        <h1 class="resv-title">Ayrıcalıklar Dünyasına Katılın</h1>
+        <p class="resv-sub">Üye olun, her gelişinizde özel sürprizler ve indirimler kazanın.</p>
+      </header>
+
+      <form id="membershipForm" class="resv-grid">
+        <div class="resv-field">
+          <div class="resv-input-wrapper">
+            <input id="mbr-name" name="name" type="text" required class="resv-input" placeholder=" ">
+            <label for="mbr-name" class="resv-floating-label">Ad Soyad</label>
+          </div>
+        </div>
+
+        <div class="resv-field">
+          <div class="resv-input-wrapper">
+            <input id="mbr-phone" name="phone" type="tel" required class="resv-input" placeholder=" ">
+            <label for="mbr-phone" class="resv-floating-label">Telefon</label>
+          </div>
+        </div>
+
+        <div class="resv-field">
+          <div class="resv-input-wrapper">
+            <input id="mbr-email" name="email" type="email" required class="resv-input" placeholder=" ">
+            <label for="mbr-email" class="resv-floating-label">E-posta Adresi</label>
+          </div>
+        </div>
+
+        <div class="resv-field">
+          <div class="resv-input-wrapper">
+            <input id="mbr-birthday" name="birthday" type="date" required class="resv-input" placeholder=" ">
+            <label for="mbr-birthday" class="resv-floating-label">Doğum Tarihiniz</label>
+          </div>
+          <small class="mbr-hint">* Sürpriz doğum günü hediyelerimiz için.</small>
+        </div>
+
+        <div class="resv-field resv-field--full">
+          <div class="communication-prefs">
+            <h4>İletişim Tercihleriniz</h4>
+            <div class="prefs-grid">
+              <label class="pref-item">
+                <input type="checkbox" name="mbr_pref_sms" checked>
+                <div class="pref-content">
+                  <i class="fas fa-sms"></i>
+                  <span>SMS</span>
+                </div>
+              </label>
+              <label class="pref-item">
+                <input type="checkbox" name="mbr_pref_email" checked>
+                <div class="pref-content">
+                  <i class="fas fa-envelope"></i>
+                  <span>E-Posta</span>
+                </div>
+              </label>
+              <label class="pref-item">
+                <input type="checkbox" name="mbr_pref_call" checked>
+                <div class="pref-content">
+                  <i class="fas fa-phone-alt"></i>
+                  <span>Arama</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="resv-field resv-field--full">
+          <div class="resv-consent">
+            <label class="resv-check">
+              <input type="checkbox" name="mbr_consent" required>
+              <span>Üyelik sözleşmesini ve <a href="#" id="open-kvkk-mbr" class="resv-link">KVKK aydınlatma metnini</a> okudum, onaylıyorum.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="resv-actions resv-field--full">
+          <button type="submit" class="resv-btn resv-btn--primary">
+            <i class="fas fa-user-check"></i> Üyeliği Başlat
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+`;
