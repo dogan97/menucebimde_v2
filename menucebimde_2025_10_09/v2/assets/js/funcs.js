@@ -580,3 +580,59 @@ var alerjen = {
   function removeLeadingBr(str) {
     return str.replace(/^<br>/i, ''); // Başta <br> varsa kaldırır
   }
+  
+  /**
+   * Ürün için tahmini servis süresi ve kalori bilgisi üretir.
+   * Backend verisi varsa onu kullanır, yoksa akıllı tahmin yapar.
+   */
+  function getProductExtras(item) {
+      if (!item) return { time: "10-15 dk", kcal: "350 kcal", kcalNum: 350 };
+      
+      let time = item.service_time || null;
+      let kcal = item.calories || null;
+      let kcalNum = 0;
+  
+      const title = (item.title || "").toLowerCase();
+  
+      if (!time) {
+          if (title.indexOf("çay") > -1 || title.indexOf("kahve") > -1 || title.indexOf("su") > -1 || title.indexOf("soda") > -1 || title.indexOf("ayran") > -1) {
+              time = "3-5 dk";
+          } else if (title.indexOf("tost") > -1 || title.indexOf("sandviç") > -1 || title.indexOf("omlet") > -1 || title.indexOf("menemen") > -1) {
+              time = "8-12 dk";
+          } else if (title.indexOf("burger") > -1 || title.indexOf("pizza") > -1 || title.indexOf("makarna") > -1 || title.indexOf("salata") > -1) {
+              time = "12-18 dk";
+          } else if (title.indexOf("kebap") > -1 || title.indexOf("ızgara") > -1 || title.indexOf("pirzola") > -1 || title.indexOf("bonfile") > -1) {
+              time = "20-25 dk";
+          } else if (title.indexOf("tatlı") > -1 || title.indexOf("pasta") > -1 || title.indexOf("kek") > -1 || title.indexOf("çikolata") > -1) {
+              time = "5-10 dk";
+          } else {
+              time = "10-15 dk";
+          }
+      }
+  
+      if (!kcal) {
+          let baseKcal = 350;
+          if (title.indexOf("çay") > -1 || title.indexOf("su") > -1 || title.indexOf("soda") > -1) baseKcal = 0;
+          else if (title.indexOf("kahve") > -1) baseKcal = 50;
+          else if (title.indexOf("salata") > -1) baseKcal = 220;
+          else if (title.indexOf("burger") > -1 || title.indexOf("pizza") > -1) baseKcal = 650;
+          else if (title.indexOf("kebap") > -1 || title.indexOf("ızgara") > -1) baseKcal = 550;
+          else if (title.indexOf("makarna") > -1) baseKcal = 450;
+          else if (title.indexOf("tatlı") > -1 || title.indexOf("pasta") > -1 || title.indexOf("çikolata") > -1) baseKcal = 400;
+  
+          if (title.indexOf("diyet") > -1 || title.indexOf("fit") > -1 || title.indexOf("light") > -1) baseKcal *= 0.6;
+          if (title.indexOf("double") > -1 || title.indexOf("büyük") > -1 || title.indexOf("karışık") > -1) baseKcal *= 1.3;
+  
+          const offset = (parseInt(item.id || 0) % 40) - 20;
+          kcalNum = Math.max(0, Math.floor(baseKcal + offset));
+          kcal = kcalNum + " kcal";
+      } else {
+          kcalNum = parseInt(kcal) || 0;
+      }
+  
+      return { 
+          time: time, 
+          kcal: kcal,
+          kcalNum: kcalNum
+      };
+  }

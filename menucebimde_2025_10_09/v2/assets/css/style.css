@@ -1355,6 +1355,131 @@ b {
   line-height: 16px;
 }
 
+/* Ürün Detay Ekstra Bilgiler (Vertical Minimal Design) */
+.product-detail-extras {
+  display: flex !important;
+  gap: 10px;
+  margin: 15px 0 25px 0;
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 15px 0;
+}
+
+.pde-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* İkon ve yazı alt alta */
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.pde-item i {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px; /* İkonlar daha belirgin */
+  flex-shrink: 0;
+  background: none !important;
+}
+
+/* 1. Hazırlık Süresi (Mavi) */
+.pde-item:nth-child(1) i {
+  color: #3b82f6;
+}
+
+/* 2. Kalori (Alev - Turuncu Gradyan) */
+.pde-item:nth-child(2) i {
+  background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #ff4500;
+}
+
+/* 3. Karbon Ayak İzi (Yaprak - Yeşil Gradyan) */
+.pde-item:nth-child(3) i {
+  background: linear-gradient(135deg, #22c55e, #10b981) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #22c55e;
+}
+
+.pde-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+
+.pde-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.pde-sub {
+  font-size: 9px;
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* PDE (Product Detail Elements) Yeni Bilgi Kartları */
+.pde-meta-container {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.pde-meta-item {
+    flex: 1;
+    min-width: 100px;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.pde-meta-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.pde-meta-label {
+    display: block;
+    font-size: 11px;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.pde-meta-value {
+    display: block;
+    font-size: 14px;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.pde-meta-icon {
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+/* Kalori Barı (Önceki kodu koruyarak güncelliyoruz) */
 .fiyatlar {
   float: left;
   width: 88%;

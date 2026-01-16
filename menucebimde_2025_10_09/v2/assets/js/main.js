@@ -3287,9 +3287,40 @@ function filterUruns(txt) {
 
 
 
+            var extras = getProductExtras(selList[uid]);
+            var kcalPercent = Math.min(100, ((extras.kcalNum || 0) / 1000) * 100);
+            
+            // Karbon Ayak İzi Simülasyonu (Gerçek veri yoksa kaloriden türetelim)
+            var carbonValue = ((extras.kcalNum || 200) * 0.003).toFixed(1); // Örn: 500 kcal -> 1.5kg CO2
+            var carbonPercent = Math.min(100, (carbonValue / 5) * 100); // 5kg max skala
+
+            var extraHtml = '<div class="product-detail-extras">' +
+              '<div class="pde-item">' +
+                '<i class="far fa-clock"></i>' +
+                '<div class="pde-text-wrap">' +
+                  '<span class="pde-label">' + extras.time + '</span>' +
+                  '<span class="pde-sub">Hazırlık</span>' +
+                '</div>' +
+              '</div>' +
+              '<div class="pde-item">' +
+                '<i class="fas fa-fire-alt"></i>' +
+                '<div class="pde-text-wrap">' +
+                  '<span class="pde-label">' + extras.kcal + '</span>' +
+                  '<span class="pde-sub">Kalori</span>' +
+                '</div>' +
+              '</div>' +
+              '<div class="pde-item">' +
+                '<i class="fas fa-leaf"></i>' +
+                '<div class="pde-text-wrap">' +
+                  '<span class="pde-label">' + carbonValue + ' kg CO₂</span>' +
+                  '<span class="pde-sub">Karbon</span>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+
             htmlSlide += '<div class="swiper-slide" data-uid="' + selList[uid].id + '">\
             <div class="detay pz-Media noimg" data-id="'+ selList[uid].id + '" style=""><img src="' + detimg + '" style="' + stl + '" onerror="this.onerror=null;this.src=\'' + noimg + '\'"/>\
-            <h1>'+ nlustr + deth1 + '</h1>' + urunlink + '<p>' + detp + '</p>' + alef + '\
+            <h1>'+ nlustr + deth1 + '</h1>' + urunlink + '<p>' + detp + '</p>' + alef + extraHtml + '\
             <h1 class="portyappdiv">'+ portyappstr + '</h1>\
             </div>\
             <div class="fiyatlar onerow mb50 '+ (data.ssepet > 0 ? 'spsetSec' : '') + '"><ul>' + fdata + '</ul></div>\
@@ -3748,7 +3779,47 @@ function filterUruns(txt) {
           break;
       }
 
-      $(".urun .detay h1").html(urndata[gid].ydata[uid].title);
+      var extras = getProductExtras(urndata[gid].ydata[uid]);
+      var kcalPercent = Math.min(100, ((extras.kcalNum || 0) / 1000) * 100);
+
+      // Karbon Ayak İzi Simülasyonu
+      var carbonValue = ((extras.kcalNum || 200) * 0.003).toFixed(1);
+      var carbonPercent = Math.min(100, (carbonValue / 5) * 100);
+
+      var extraHtml = '<div class="product-detail-extras">' +
+        '<div class="pde-item">' +
+          '<i class="far fa-clock"></i>' +
+          '<div class="pde-text-wrap">' +
+            '<span class="pde-label">' + extras.time + '</span>' +
+            '<span class="pde-sub">Hazırlık</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="pde-item">' +
+          '<i class="fas fa-fire-alt"></i>' +
+          '<div class="pde-text-wrap">' +
+            '<span class="pde-label">' + extras.kcal + '</span>' +
+            '<span class="pde-sub">Kalori</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="pde-item">' +
+          '<i class="fas fa-leaf"></i>' +
+          '<div class="pde-text-wrap">' +
+            '<span class="pde-label">' + carbonValue + ' kg CO₂</span>' +
+            '<span class="pde-sub">Karbon</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+      
+      // Eğer zaten eklenmişse temizle
+      $(".urun .product-detail-extras").remove();
+      
+      // Alerjenler varsa altına, yoksa açıklamanın altına ekle
+      if($(".urun .divalera").length > 0) {
+          $(".urun .divalera").after(extraHtml);
+      } else {
+          $(".urun .detay p").after(extraHtml);
+      }
+
       $(".urun .detay p").html(urndata[gid].ydata[uid].content);
       $(".urun .detay img").attr(
         "src",

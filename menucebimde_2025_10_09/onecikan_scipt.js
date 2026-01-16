@@ -112,10 +112,7 @@ function updateFeaturedContent(product, currency) {
     const featuredDescription = document.querySelector('.featured-description');
     const featuredPrice = document.querySelector('.featured-price');
 
-    // Ürün adını 3 kelimeden uzunsa kısalt
-    //const words = product.title.split(' ');
-    //let isLongTitle = words.length > 3;
-    //let title = isLongTitle ? words.slice(0, 3).join(' ') + '...' : product.title;
+    if (!featuredTitle || !featuredDescription || !featuredPrice) return;
 
     featuredTitle.textContent = product.title;
     //featuredTitle.setAttribute('data-full-title', product.title);

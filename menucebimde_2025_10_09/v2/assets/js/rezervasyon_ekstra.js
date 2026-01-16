@@ -151,7 +151,7 @@ $(document).ready(function() {
         // Hafızayı temizle
         window.tempResvOrder = null;
         window.tempResvUser = null;
-
+        
         setTimeout(() => {
             $('#successResvModal').removeClass('show');
             if (typeof window.loadPage === 'function') {
