@@ -3266,7 +3266,7 @@ function filterUruns(txt) {
 
 
                 for (var k = 0; k < selList[uid].alerjen.length; k++) {
-                  alef += '<div class="divaler" style="' + stl2 + '"><img class="alerjid" src="v2/assets/img/alerjen/' + selList[uid].alerjen[k] + '.png"><div>' + alerjen[curln][selList[uid].alerjen[k]] + '</div></div>'
+                  alef += '<div class="divaler" style="' + stl2 + '"><img class="alerjid" src="hhtps://boraozcan.com/dogan-menucebimde/v2/assets/img/alerjen/' + selList[uid].alerjen[k] + '.png"><div>' + alerjen[curln][selList[uid].alerjen[k]] + '</div></div>'
                 }
 
 
