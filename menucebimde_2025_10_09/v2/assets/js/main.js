@@ -163,8 +163,10 @@ $(function () {
 
       if (param.sctop !== undefined) {
         if (url != 'slide') {
-          $(window).scrollTop(param.sctop);
-          console.log("slide değil")
+          setTimeout(function() {
+            $(window).scrollTop(param.sctop);
+            console.log("Scroll restored to: " + param.sctop);
+          }, 100);
         } else {
           $(window).scrollTop(0)
         }
@@ -700,6 +702,9 @@ function filterUruns(txt) {
   $("#app").on("tap", ".list .urunler li, .main .urunler li", function () {
     //loadPage("urun",{gid: $(this).data("gid"),uid: $(this).data("uid"),sctop: $(window).scrollTop(),},true);
     sctop = $(window).scrollTop();
+    if (data.tema == 6 || data.tema == 4 || data.tema == 5) {
+      gctop = sctop;
+    }
     loadPage("slide", { gid: $(this).data("gid"), uid: $(this).data("uid"), sctop: sctop }, true);
   });
 
@@ -2930,7 +2935,7 @@ function filterUruns(txt) {
         return;
       }
 
-      // TEMA 6: Elite Scroll & Luxury Cards
+      // TEMA 6: Elite Split-View (Fine-Dining Luxury)
       if (data.tema == 6) {
         // Default barları korumak için sadece içerik alanlarını gizliyoruz
         $(".main .searchbar, .main .gruplar, .main .urunler, .main .sonyayintr, .featured-products").hide();
@@ -2941,23 +2946,25 @@ function filterUruns(txt) {
         }
 
         let t6Html = `
-          <nav class="t6-category-nav">
-            <div class="t6-category-list">`;
+          <div class="t6-split-container">
+            <aside class="t6-sidebar">
+              <div class="t6-sidebar-nav">`;
         
-        // Kategori Navigasyonu
+        // Sol Sidebar: Kategoriler
         for (let i = 0; i < urndata.length; i++) {
           if (urndata[i].ydata.length === 0) continue;
-          t6Html += `<div class="t6-cat-item ${i === 0 ? 'active' : ''}" data-target="cat-${i}">${urndata[i].name}</div>`;
+          t6Html += `<div class="t6-side-item ${i === 0 ? 'active' : ''}" data-target="cat-${i}"><span>${urndata[i].name}</span></div>`;
         }
         
-        t6Html += `</div></nav><div class="t6-product-grid">`;
+        t6Html += `</div></aside>
+            <main class="t6-main-feed">`;
 
-        // Ürün Listesi
+        // Sağ Alan: Ürün Akışı
         for (let i = 0; i < urndata.length; i++) {
           let kategori = urndata[i];
           if (kategori.ydata.length === 0) continue;
 
-          t6Html += `<h2 class="t6-section-title" id="cat-${i}">${kategori.name}</h2>`;
+          t6Html += `<h2 class="t6-feed-title" id="cat-${i}">${kategori.name}</h2>`;
 
           for (let j = 0; j < kategori.ydata.length; j++) {
             let urun = kategori.ydata[j];
@@ -2965,23 +2972,21 @@ function filterUruns(txt) {
             let resim = getresim(urun.photo, 1);
             
             t6Html += `
-              <div class="t6-product-card" data-gid="${i}" data-uid="${j}">
-                <div class="t6-card-image-wrap">
-                  <img src="${resim}" class="t6-card-image" onerror="this.src='${noimg}'" />
+              <div class="t6-feed-item" data-gid="${i}" data-uid="${j}">
+                <div class="t6-item-image">
+                  <img src="${resim}" onerror="this.src='${noimg}'" />
                 </div>
-                <div class="t6-card-content">
-                  <div class="t6-card-header">
-                    <h3 class="t6-card-title">${urun.title}</h3>
-                    <span class="t6-card-price">${fiyatyap(fiyat, data.currency)}</span>
-                  </div>
-                  <p class="t6-card-desc">${urun.content || urun.desc || ''}</p>
-                  <div class="t6-card-footer">
-                    <div class="t6-alerjen-list">`;
+                <div class="t6-item-info">
+                  <h3 class="t6-item-title">${urun.title}</h3>
+                  <p class="t6-item-desc">${urun.content || urun.desc || ''}</p>
+                  <div class="t6-item-footer">
+                    <span class="t6-item-price">${fiyatyap(fiyat, data.currency)}</span>
+                    <div class="t6-item-alerjens">`;
             
             // Alerjenler
             if (urun.alerjen && urun.alerjen.length > 0) {
               for (let k = 0; k < urun.alerjen.length; k++) {
-                t6Html += `<img src="v2/assets/img/alerjen/${urun.alerjen[k]}.png" class="t6-alerjen-img" />`;
+                t6Html += `<img src="v2/assets/img/alerjen/${urun.alerjen[k]}.png" />`;
               }
             }
 
@@ -2992,7 +2997,7 @@ function filterUruns(txt) {
           }
         }
 
-        t6Html += `</div>`;
+        t6Html += `</main></div>`;
         $(".t6-content-wrapper").html(t6Html);
 
         // Sepet butonu görünürlüğü
@@ -3000,48 +3005,38 @@ function filterUruns(txt) {
             $(".sepet").removeClass("hide");
         }
 
-        // Kategori Tıklama ve Scroll Mantığı
-        $(".t6-cat-item").on("click", function() {
+        // Kategori Tıklama
+        $(".t6-side-item").on("click", function() {
           const target = $(this).data("target");
-          const offset = $("#" + target).offset().top - 130; // Header payı eklendi
-          $("html, body").animate({ scrollTop: offset }, 500);
-          $(".t6-cat-item").removeClass("active");
-          $(this).addClass("active");
+          const $feed = $(".t6-main-feed");
+          const targetElement = $("#" + target);
+          if (targetElement.length) {
+              const targetOffset = targetElement.position().top + $feed.scrollTop();
+              $feed.animate({ scrollTop: targetOffset }, 500);
+              $(".t6-side-item").removeClass("active");
+              $(this).addClass("active");
+          }
         });
 
         // Ürün Tıklama (Detay Sayfasına Git)
-        $(".t6-product-card").on("click", function() {
+        $(".t6-feed-item").on("click", function() {
+          gctop = $(window).scrollTop(); // Kaldığı yeri kaydet
           const gid = $(this).data("gid");
           const uid = $(this).data("uid");
           loadPage("slide", { gid: gid, uid: uid }, true);
         });
 
-        // SCROLL-SPY: Kaydırdıkça Üstteki Tabları Güncelleme
-        $(window).off("scroll.t6spy").on("scroll.t6spy", function() {
-            if (data.tema != 6 || _page != "main") return;
-
-            let scrollPos = $(window).scrollTop() + 150; // Offset payı
-            let currentCat = "";
-
-            $(".t6-section-title").each(function() {
-                let sectionTop = $(this).offset().top;
+        // Scroll Spy (Sağ taraf kaydıkça sol tarafı güncelle)
+        $(".t6-main-feed").on("scroll", function() {
+            let scrollPos = $(this).scrollTop() + 50;
+            $(".t6-feed-title").each(function() {
+                let sectionTop = $(this).position().top + $(".t6-main-feed").scrollTop();
                 if (scrollPos >= sectionTop) {
-                    currentCat = $(this).attr("id");
+                    let id = $(this).attr("id");
+                    $(".t6-side-item").removeClass("active");
+                    $(`.t6-side-item[data-target="${id}"]`).addClass("active");
                 }
             });
-
-            if (currentCat) {
-                let $activeTab = $(`.t6-cat-item[data-target="${currentCat}"]`);
-                if (!$activeTab.hasClass("active")) {
-                    $(".t6-cat-item").removeClass("active");
-                    $activeTab.addClass("active");
-                    
-                    // Aktif olan tabı yatay barda görünür yap (Otomatik kaydır)
-                    let container = $(".t6-category-nav");
-                    let scrollLeft = $activeTab.position().left + container.scrollLeft() - (container.width() / 2) + ($activeTab.width() / 2);
-                    container.animate({ scrollLeft: scrollLeft }, 200);
-                }
-            }
         });
 
         return;

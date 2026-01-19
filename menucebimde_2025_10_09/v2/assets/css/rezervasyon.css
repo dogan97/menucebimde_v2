@@ -181,6 +181,24 @@ body {
   z-index: 1;
 }
 
+/* Şifre alanı için sağdan boşluk bırak (göz ikonu için) */
+.resv-input-wrapper input#q-password,
+.resv-input-wrapper input#mbr-password {
+  padding-right: 45px;
+}
+
+.resv-input-wrapper .toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  cursor: pointer;
+  z-index: 20; /* Daha yüksek z-index */
+  padding: 10px; /* Tıklama alanını genişlet */
+  margin-right: -10px; /* Padding artışını dengele */
+}
+
 .resv-select-icon {
   position: absolute;
   right: 16px;

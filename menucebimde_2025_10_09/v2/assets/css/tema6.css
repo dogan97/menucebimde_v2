@@ -1,167 +1,169 @@
-/* Tema 6: Elite Scroll & Dynamic Cards (Luxury Fine-Dining) */
+/* Tema 6: Elite Sidebar (Fine-Dining Luxury Split-View) */
 
 :root {
-    --t6-card-bg: #ffffff;
-    --t6-text-main: #1a1a1a;
-    --t6-text-muted: #666666;
-    --t6-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --t6-bg: #ffffff;
+    --t6-sidebar-bg: #fdfdfd;
+    --t6-text-main: #111111;
+    --t6-text-muted: #888888;
+    --t6-divider: #f0f0f0;
 }
 
-.page.t6-main {
-    background-color: #fcfcfc;
-}
-
-/* 1. Yatay Kayan Kategoriler (Horizontal Ribbon) */
-.t6-category-nav {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-}
-
-.t6-category-nav::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-}
-
-.t6-category-list {
-    display: inline-flex;
-    padding: 0 15px;
-    gap: 12px;
-}
-
-.t6-cat-item {
-    padding: 8px 20px;
-    border-radius: 25px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--t6-text-main);
-    background: #f0f0f0;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: 1px solid transparent;
-}
-
-.t6-cat-item.active {
-    background: var(--backbtncolor);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(var(--backbtncolorrgb), 0.3);
-}
-
-/* 2. Lüks Ürün Kartları (Luxury Product Cards) */
-.t6-product-grid {
-    padding: 20px 15px;
-}
-
-.t6-product-card {
-    background: var(--t6-card-bg);
-    border-radius: 20px;
-    margin-bottom: 25px;
+/* 1. Split Layout Base */
+.t6-content-wrapper {
+    height: calc(100vh - 50px); /* Logo bar yüksekliği */
+    background: var(--t6-bg);
     overflow: hidden;
-    box-shadow: var(--t6-shadow);
-    transition: transform 0.3s ease;
 }
 
-.t6-product-card:active {
-    transform: scale(0.98);
+/* Global style.css'deki top: 50px çakışmasını engellemek için */
+.page.main {
+    top: 50px !important;
 }
 
-.t6-card-image-wrap {
-    position: relative;
-    width: 100%;
-    padding-top: 65%; /* 16:10 Aspect Ratio */
-    background-color: #f5f5f5;
-}
-
-.t6-card-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.t6-card-content {
-    padding: 20px;
-}
-
-.t6-card-header {
+.t6-split-container {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 8px;
+    height: 100%;
+    width: 100%;
 }
 
-.t6-card-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--t6-text-main);
-    flex: 1;
-    margin-right: 15px;
+/* 2. Left Sidebar (1/3) */
+.t6-sidebar {
+    width: 32%;
+    height: 100%;
+    background: var(--t6-sidebar-bg);
+    border-right: 1px solid var(--t6-divider);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
 }
 
-.t6-card-price {
-    font-size: 17px;
-    font-weight: 800;
-    color: var(--backbtncolor);
-    white-space: nowrap;
+.t6-sidebar::-webkit-scrollbar { display: none; }
+
+.t6-sidebar-nav {
+    padding: 10px 0;
 }
 
-.t6-card-desc {
+.t6-side-item {
+    padding: 18px 15px;
     font-size: 13px;
-    line-height: 1.5;
+    font-weight: 600;
     color: var(--t6-text-muted);
-    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+}
+
+.t6-side-item span {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-.t6-card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.t6-alerjen-list {
-    display: flex;
-    gap: 6px;
-}
-
-.t6-alerjen-img {
-    width: 20px;
-    height: 20px;
-    opacity: 0.8;
-}
-
-.t6-add-btn {
-    background: var(--backbtncolor);
-    color: #fff;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    box-shadow: 0 4px 10px rgba(var(--backbtncolorrgb), 0.2);
-}
-
-/* Category Sticky Header for Scrolling */
-.t6-section-title {
-    font-size: 22px;
+.t6-side-item.active {
+    color: var(--backbtncolor);
+    background: rgba(var(--backbtncolorrgb), 0.05);
+    border-left-color: var(--backbtncolor);
     font-weight: 800;
-    padding: 5px 0;
-    margin: 10px 0;
+}
+
+/* 3. Main Feed (2/3) */
+.t6-main-feed {
+    width: 68%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 15px 80px 15px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.t6-feed-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 10px 0 20px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--t6-divider);
     color: var(--t6-text-main);
-    border-bottom: 2px solid var(--backbtncolor);
-    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 4. Fine-Dining Feed Items (Card-less) */
+.t6-feed-item {
+    margin-bottom: 35px;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.t6-item-image {
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+}
+
+.t6-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.t6-item-info {
+    padding: 0 5px;
+}
+
+.t6-item-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--t6-text-main);
+}
+
+.t6-item-desc {
+    font-size: 12px;
+    color: var(--t6-text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.t6-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.t6-item-price {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--t6-text-main);
+}
+
+.t6-item-alerjens {
+    display: flex;
+    gap: 4px;
+}
+
+.t6-item-alerjens img {
+    width: 16px;
+    height: 16px;
+    opacity: 0.6;
+}
+
+/* Menü açıkken sidebar'ı gizle (Görsel temizlik) */
+body.nav--open .t6-split-container {
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }

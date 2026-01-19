@@ -376,7 +376,7 @@ body {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 10;
+  z-index: 1010; /* Tabmenu (1001) üzerinde olması için artırıldı */
   background: #fff;
 }
 
@@ -402,7 +402,7 @@ body {
     width: 100%;
     min-height: 100%;
     background: rgba(var(--backbtncolorrgb),.2);
-    z-index: 5;
+    z-index: 1001; /* Kategori tablarının (1000) üzerinde olması için artırıldı */
 }
 
 .main {
@@ -520,7 +520,7 @@ body {
   left: 20px;
   bottom: 20px;
   border-radius: 5px;
-  z-index: 100;
+  z-index: 1011; /* Kapak sayfasının (1010) üzerinde olması için artırıldı */
 }
 .gotabmenu a {
   display: inline-block;
@@ -2337,13 +2337,18 @@ select#secimKutusu:focus-visible {
   height: 50px;
   top: 0;
   position: fixed;
-  z-index: 10;
+  z-index: 1100; /* Kategori tablarının (1000) üzerinde olması için artırıldı */
   display: flex;
   justify-content: center;
   align-items: center;
   /*background-color: #ccc;*/
   background-color: #fff;
   box-shadow: 0 -12px 20px;
+}
+
+.headbar.nav--open {
+  background-color: #fff;
+  box-shadow: none;
 }
 
 .headbar img {
@@ -2376,7 +2381,7 @@ select#secimKutusu:focus-visible {
   height: 50px;
   top: 50px;
   position: fixed;
-  z-index: 10;
+  z-index: 1005; /* Kategori barının üzerinde kalması için artırıldı */
   /*display: flex;*/
   justify-content: center;
   align-items: center;
@@ -3276,7 +3281,7 @@ div.icerik .spncom {
 .nav__toggle {
   display: inline-block;
   position: absolute;
-  z-index: 10;
+  z-index: 1200; /* Menü overlay'inin (1101) üzerinde olması için artırıldı */
   padding: 0;
   border: 0;
   background: transparent;
@@ -3297,7 +3302,7 @@ div.icerik .spncom {
   /*height: 740px;*/
   width: 100%;
   position: absolute;
-  z-index: 5;
+  z-index: 1101; /* Headbar içindeki diğer elemanların üzerinde olması için */
   visibility: hidden;
   top:0px;
   

@@ -139,9 +139,9 @@ $(document).ready(function() {
             gender: $('#q-gender').val(),
             password: $('#q-password').val(),
             prefs: {
-                sms: $('input[name="pref_sms"]').is(':checked'),
-                email: $('input[name="pref_email"]').is(':checked'),
-                call: $('input[name="pref_call"]').is(':checked')
+            sms: $('input[name="pref_sms"]').is(':checked'),
+            email: $('input[name="pref_email"]').is(':checked'),
+            call: $('input[name="pref_call"]').is(':checked')
             }
         };
         
@@ -151,7 +151,7 @@ $(document).ready(function() {
         $(this).css('opacity', '0.5').css('pointer-events', 'none');
         
         setTimeout(() => {
-            $(this).html(`
+        $(this).html(`
                 <div class="signup-success-msg animate__animated animate__zoomIn" style="padding: 30px 20px; color: #2ecc71; font-weight: 600; text-align: center;">
                     <div class="success-icon-wrap" style="background: rgba(46, 204, 113, 0.1); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
                         <i class="fas fa-check-double" style="font-size: 40px;"></i>
@@ -161,19 +161,19 @@ $(document).ready(function() {
                         Üyeliğiniz başarıyla oluşturuldu.<br>
                         Giriş bilgileriniz e-posta adresinize gönderildi.
                     </p>
-                </div>
-            `);
+            </div>
+        `);
             
             // Hafızayı temizle
             window.tempResvOrder = null;
             window.tempResvUser = null;
-            
-            setTimeout(() => {
-                $('#successResvModal').removeClass('show');
-                if (typeof window.loadPage === 'function') {
-                    window.loadPage("start", {}, true);
-                }
-            }, 3000);
+        
+        setTimeout(() => {
+            $('#successResvModal').removeClass('show');
+            if (typeof window.loadPage === 'function') {
+                window.loadPage("start", {}, true);
+            }
+        }, 3000);
         }, 1500);
     });
 

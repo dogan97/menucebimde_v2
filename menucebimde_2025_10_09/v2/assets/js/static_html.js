@@ -512,7 +512,7 @@ var resvSuccessModalHtml = `
             <div class="resv-input-wrapper">
             <input id="q-password" name="password" type="password" required class="resv-input" placeholder=" ">
             <label for="q-password" class="resv-floating-label">Şifre Belirleyin</label>
-            <i class="fas fa-eye toggle-password" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #64748b; cursor: pointer; z-index: 10;"></i>
+            <i class="fas fa-eye toggle-password"></i>
           </div>
           </div>
 
@@ -1037,7 +1037,7 @@ var uyelik = `
           <div class="resv-input-wrapper">
             <input id="mbr-password" name="password" type="password" required class="resv-input" placeholder=" ">
             <label for="mbr-password" class="resv-floating-label">Şifre Belirleyin</label>
-            <i class="fas fa-eye toggle-password" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #64748b; cursor: pointer; z-index: 10;"></i>
+            <i class="fas fa-eye toggle-password"></i>
           </div>
         </div>
 
