@@ -18,13 +18,8 @@ body {
 
 .page.rezervasyon {
   width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  position: absolute;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  min-height: 100vh;
+  position: relative;
   background-color: #f8fafc; /* Sayfa arka planı */
 }
 
@@ -367,9 +362,11 @@ body {
 
 .resv-modal.show {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Üstten başlatıyoruz */
   justify-content: center;
+  overflow-y: auto; /* Dış katmanda kaydırma desteği */
   animation: resvFadeIn 0.3s ease;
+  padding: 20px 10px; /* Küçük ekranlarda yanlardan boşluk */
 }
 
 @keyframes resvFadeIn {
@@ -687,6 +684,9 @@ body {
   text-align: center;
   padding: 0;
   background: #fdfdfd;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch; /* iOS için akıcı kaydırma */
+  display: block; /* Flex-column bazen internal scroll'u bozabilir, block daha güvenli */
 }
 
 .success-header {
@@ -757,91 +757,69 @@ body {
   color: var(--resv-accent);
 }
 
+.communication-prefs {
+  margin: 15px 0;
+  text-align: left;
+  padding: 0 5px;
+}
+
 .communication-prefs h4 {
-  font-size: 15px;
-  margin-bottom: 15px;
-  color: var(--resv-text);
+  font-size: 11px;
+  margin-bottom: 10px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
 }
 
 .prefs-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .pref-item {
   cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: transparent;
+  border: none;
 }
 
 .pref-item input {
-  display: none;
+  appearance: checkbox;
+  -webkit-appearance: checkbox;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin: 0;
 }
 
 .pref-content {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 12px;
-  border: 2px solid var(--resv-border);
-  border-radius: 12px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  background: #fff;
 }
 
 .pref-content i {
-  font-size: 20px;
-  color: var(--resv-muted);
-  transition: all 0.2s;
+  display: none; /* İkonları tamamen gizle */
 }
 
 .pref-content span {
   font-size: 13px;
   font-weight: 600;
-  color: var(--resv-muted);
-  transition: all 0.2s;
+  color: #475569;
 }
 
-/* Seçili durum için özel gösterge (Check ikonu) */
-.pref-content::after {
-  content: '\f058'; /* fa-check-circle */
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #fff;
-  color: var(--resv-accent);
-  font-size: 18px;
-  line-height: 1;
-  border-radius: 50%;
-  opacity: 0;
-  transform: scale(0.5);
-  transition: all 0.2s;
-}
-
-.pref-item input:checked + .pref-content {
-  border-color: var(--resv-accent);
-  background: rgba(var(--backbtncolorrgb, 246, 137, 51), 0.08);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(var(--backbtncolorrgb, 246, 137, 51), 0.12);
-}
-
-.pref-item input:checked + .pref-content i,
-.pref-item input:checked + .pref-content span {
+.pref-item:has(input:checked) span {
   color: var(--resv-accent);
 }
 
-.pref-item input:checked + .pref-content::after {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.pref-item:hover .pref-content {
-  border-color: var(--resv-accent);
-  background: #fcfcfc;
+.pref-item:hover .pref-content i {
+  color: var(--resv-accent);
+  opacity: 0.7;
 }
 
 .signup-consent {
@@ -882,12 +860,27 @@ body {
 }
 
 .btn-close-success {
-  background: none;
-  border: none;
-  color: var(--resv-muted);
-  font-size: 14px;
-  text-decoration: underline;
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 13px;
+  padding: 10px 20px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  width: auto;
+  margin: 0 auto;
+}
+
+.btn-close-success:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+.btn-close-success:active {
+  transform: scale(0.98);
 }
 
 @keyframes scaleIn {

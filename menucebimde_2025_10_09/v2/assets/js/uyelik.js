@@ -18,8 +18,16 @@ $(document).ready(function() {
     $(document).on('submit', '#membershipForm', function(e) {
         e.preventDefault();
         
-        const name = $('#mbr-name').val();
-        const phone = $('#mbr-phone').val();
+        const userData = {
+            name: $('#mbr-name').val(),
+            phone: $('#mbr-phone').val(),
+            email: $('#mbr-email').val(),
+            birthday: $('#mbr-birthday').val(),
+            gender: $('#mbr-gender').val(),
+            password: $('#mbr-password').val()
+        };
+        
+        console.log("Normal üyelik oluşturuluyor...", userData);
         
         // Simülasyon: Loader göster
         $('.loader').show();
@@ -47,7 +55,7 @@ $(document).ready(function() {
                         <div class="mc-footer">
                             <div>
                                 <span class="mc-label">Üye Adı</span>
-                                <span class="mc-name">${name}</span>
+                                <span class="mc-name">${userData.name}</span>
                             </div>
                             <div class="mc-rank">SILVER MEMBER</div>
                         </div>
@@ -55,7 +63,7 @@ $(document).ready(function() {
                 </div>
 
                 <div style="margin-top: 30px; text-align: center;">
-                    <p style="font-size: 14px; color: #64748b;">Şifreniz telefonunuza SMS ile iletilmiştir.<br>Her gelişinizde bu kartı göstererek puan kazanabilirsiniz.</p>
+                    <p style="font-size: 14px; color: #64748b;">Kayıt olduğunuz bilgilerle giriş yapabilirsiniz.<br>Her gelişinizde bu kartı göstererek puan kazanabilirsiniz.</p>
                     <button type="button" class="resv-btn resv-btn--primary btn-finish-membership" style="margin-top: 20px;">
                         Harika, Menüye Dön
                     </button>

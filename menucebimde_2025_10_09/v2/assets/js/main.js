@@ -163,10 +163,10 @@ $(function () {
 
       if (param.sctop !== undefined) {
         if (url != 'slide') {
-          $("#app").scrollTop(param.sctop);
+          $(window).scrollTop(param.sctop);
           console.log("slide değil")
         } else {
-          $("#app").scrollTop(0)
+          $(window).scrollTop(0)
         }
       }
       $(".overlay").fadeOut(200);
@@ -691,21 +691,21 @@ function filterUruns(txt) {
 
 
   $("#app").on("tap", ".main .gruplar li", function () {
-    gctop = $("#app").scrollTop();
+    gctop = $(window).scrollTop();
     sctop = 0;
     //loadPage("slide", { gid: $(this).data("gid"), sctop: sctop }, true);
     loadPage("list", { gid: $(this).data("gid"), sctop: sctop }, true);
   });
 
   $("#app").on("tap", ".list .urunler li, .main .urunler li", function () {
-    //loadPage("urun",{gid: $(this).data("gid"),uid: $(this).data("uid"),sctop: $("#app").scrollTop(),},true);
-    sctop = $("#app").scrollTop();
+    //loadPage("urun",{gid: $(this).data("gid"),uid: $(this).data("uid"),sctop: $(window).scrollTop(),},true);
+    sctop = $(window).scrollTop();
     loadPage("slide", { gid: $(this).data("gid"), uid: $(this).data("uid"), sctop: sctop }, true);
   });
 
   // Öne çıkanlar slider'ındaki bir ürüne tıklandığında (Etkinlikler sayfasına yönlendir)
   $("#app").on("tap", "div.slidimg", function () {
-    sctop = $("#app").scrollTop();
+    sctop = $(window).scrollTop();
     loadPage("etkinlikler", {}, true);
   });
 
@@ -715,7 +715,7 @@ function filterUruns(txt) {
     $('.urun .fiyatlar li i').attr('class', 'fa fa-circle');
     $(this).addClass('done');
     $('i', this).attr('class', 'fa fa-check-circle');
-    //loadPage('ozellik',{ gid:$(this).data('gid'),uid:$(this).data('uid'),fid:$(this).data('fid'),sctop:$('#app').scrollTop() },true);
+    //loadPage('ozellik',{ gid:$(this).data('gid'),uid:$(this).data('uid'),fid:$(this).data('fid'),sctop:$(window).scrollTop() },true);
   });
 
   $('#app').on('tap click', '.slide .fiyatlar.spsetSec li', function () {
@@ -723,7 +723,7 @@ function filterUruns(txt) {
     $('.slide .fiyatlar li i').attr('class', 'fa fa-circle');
     $(this).addClass('done');
     $('i', this).attr('class', 'fa fa-check-circle');
-    //loadPage('ozellik',{ gid:$(this).data('gid'),uid:$(this).data('uid'),fid:$(this).data('fid'),sctop:$('#app').scrollTop() },true);
+    //loadPage('ozellik',{ gid:$(this).data('gid'),uid:$(this).data('uid'),fid:$(this).data('fid'),sctop:$(window).scrollTop() },true);
   });
 
   var mid = "";
@@ -732,7 +732,7 @@ function filterUruns(txt) {
     $('.masasecimi .masalar li i').attr('class', 'fa fa-circle');
     $(this).addClass('done');
     $('i', this).attr('class', 'fa fa-check-circle');
-    //loadPage('ozellik',{ gid:$(this).data('gid'),uid:$(this).data('uid'),fid:$(this).data('fid'),sctop:$('#app').scrollTop() },true);
+    //loadPage('ozellik',{ gid:$(this).data('gid'),uid:$(this).data('uid'),fid:$(this).data('fid'),sctop:$(window).scrollTop() },true);
     mid = $(this).data("mid");
     //console.log(mid);
 
@@ -748,7 +748,7 @@ function filterUruns(txt) {
 
       loadPage(
         "ozellik",
-        { gid: gid, uid: uid, fid: fid, sctop: $("#app").scrollTop() },
+        { gid: gid, uid: uid, fid: fid, sctop: $(window).scrollTop() },
         true
       );
     } else {
@@ -772,7 +772,7 @@ function filterUruns(txt) {
 
     loadPage(
       "ozellik",
-      { gid: gid, uid: uid, fid: fid, sctop: $("#app").scrollTop() },
+      { gid: gid, uid: uid, fid: fid, sctop: $(window).scrollTop() },
       true
     );
   });
@@ -1237,15 +1237,26 @@ function filterUruns(txt) {
       //sipGonder(num);
 
       // LOKAL TEST İÇİN BYPASS: 1111 yazıldığında backend'e sormadan ilerle
-      if (num == "1111") {
+      // --- Hızlı Üyelik Formunu Dolduran Yardımcı Fonksiyon ---
+    window.populateFastSignupForm = function() {
+        if (!window.tempResvUser) return;
+        
+        $('#q-name').val(window.tempResvUser.name);
+        $('#q-phone').val(window.tempResvUser.phone);
+        $('#q-email').val(window.tempResvUser.email || "");
+        
+        // Inputların üstündeki floating label'ların yukarı çıkması için focus/blur tetikle (eğer CSS'e bağlıysa)
+        $('.is-prefilled input').trigger('change');
+    };
+
+    if (num == "1111") {
         if (window.tempResvOrder || _pageback == "rezervasyon") {
             // Modalı DOM'da hazırla (Global/Kalıcı olması için)
             if (typeof window.ensureSuccessModal === 'function') {
                 window.ensureSuccessModal();
             }
 
-            $('#display-name').text(window.tempResvUser ? window.tempResvUser.name : "Test İsim");
-            $('#display-phone').text(window.tempResvUser ? window.tempResvUser.phone : "0500 000 00 00");
+            window.populateFastSignupForm();
             
             $('#successResvModal').addClass('show');
         } else {
@@ -1269,9 +1280,7 @@ function filterUruns(txt) {
                 if (typeof window.ensureSuccessModal === 'function') {
                     window.ensureSuccessModal();
                 }
-                // Hızlı Üyelik Modalını Göster (Mevcut mantığı koru)
-                $('#display-name').text(window.tempResvUser.name);
-                $('#display-phone').text(window.tempResvUser.phone);
+                window.populateFastSignupForm();
                 $('#successResvModal').addClass('show');
             } else {
                 // Normal sipariş gönderimi
@@ -1764,9 +1773,7 @@ function filterUruns(txt) {
              if (typeof window.ensureSuccessModal === 'function') {
                  window.ensureSuccessModal();
              }
-             // Rezervasyon Başarı Modalı ve Hızlı Üyelik
-             $('#display-name').text(window.tempResvUser.name);
-             $('#display-phone').text(window.tempResvUser.phone);
+             window.populateFastSignupForm();
              $('#successResvModal').addClass('show');
           } else {
              adisyon = [];
@@ -1780,8 +1787,7 @@ function filterUruns(txt) {
              if (typeof window.ensureSuccessModal === 'function') {
                  window.ensureSuccessModal();
              }
-             $('#display-name').text(window.tempResvUser.name);
-             $('#display-phone').text(window.tempResvUser.phone);
+             window.populateFastSignupForm();
              $('#successResvModal').addClass('show');
           } else {
              alertMe({ msg: _data.err });
@@ -1800,8 +1806,7 @@ function filterUruns(txt) {
              if (typeof window.ensureSuccessModal === 'function') {
                  window.ensureSuccessModal();
              }
-             $('#display-name').text(window.tempResvUser.name);
-             $('#display-phone').text(window.tempResvUser.phone);
+             window.populateFastSignupForm();
              $('#successResvModal').addClass('show');
           } else {
              alertMe({ msg: "Bir hata oluştu. Lütfen tekrar deneyiniz." });
@@ -1814,8 +1819,7 @@ function filterUruns(txt) {
              if (typeof window.ensureSuccessModal === 'function') {
                  window.ensureSuccessModal();
              }
-             $('#display-name').text(window.tempResvUser.name);
-             $('#display-phone').text(window.tempResvUser.phone);
+             window.populateFastSignupForm();
              $('#successResvModal').addClass('show');
         }
       }
@@ -1874,9 +1878,7 @@ function filterUruns(txt) {
              if (typeof window.ensureSuccessModal === 'function') {
                  window.ensureSuccessModal();
              }
-             // Rezervasyon Başarı Modalı ve Hızlı Üyelik
-             $('#display-name').text(window.tempResvUser.name);
-             $('#display-phone').text(window.tempResvUser.phone);
+             window.populateFastSignupForm();
              $('#successResvModal').addClass('show');
           } else {
              adisyon = [];
@@ -1890,8 +1892,7 @@ function filterUruns(txt) {
              if (typeof window.ensureSuccessModal === 'function') {
                  window.ensureSuccessModal();
              }
-             $('#display-name').text(window.tempResvUser.name);
-             $('#display-phone').text(window.tempResvUser.phone);
+             window.populateFastSignupForm();
              $('#successResvModal').addClass('show');
           } else {
              alertMe({ msg: _data.err });
@@ -1910,8 +1911,7 @@ function filterUruns(txt) {
              if (typeof window.ensureSuccessModal === 'function') {
                  window.ensureSuccessModal();
              }
-             $('#display-name').text(window.tempResvUser.name);
-             $('#display-phone').text(window.tempResvUser.phone);
+             window.populateFastSignupForm();
              $('#successResvModal').addClass('show');
           } else {
              alertMe({ msg: "Bir hata oluştu. Lütfen tekrar deneyiniz." });
@@ -1924,8 +1924,7 @@ function filterUruns(txt) {
              if (typeof window.ensureSuccessModal === 'function') {
                  window.ensureSuccessModal();
              }
-             $('#display-name').text(window.tempResvUser.name);
-             $('#display-phone').text(window.tempResvUser.phone);
+             window.populateFastSignupForm();
              $('#successResvModal').addClass('show');
         }
       }
@@ -2305,6 +2304,19 @@ function filterUruns(txt) {
 
           }
 
+          if (data.hasOwnProperty('mtbm')){
+
+            if(data.mtbm==1){
+
+           
+              mBack=0;
+              data.tema=4;
+              opage="main";
+
+            }
+
+  }
+
 
           if (data.hasOwnProperty('menualtitxt')) {
 
@@ -2597,7 +2609,32 @@ function filterUruns(txt) {
 
     }
 
-    if (data.multim.length > 1) {
+    // if (data.multim.length > 1) { // eski fonksiyon
+    //   $(".gomains i").text(data.multim.length);
+    //   $(".gomains").removeClass("hide");
+
+    //   var menushtm = "";
+    //   for (var i = 0; i < data.multim.length; i++) {
+    //     menushtm +=
+    //       "<a " +
+    //       (data.menu_id == data.multim[i].id ? 'class="active"' : "") +
+    //       ' data-menuid="' +
+    //       data.multim[i].id +
+    //       '">' +
+    //       data.multim[i].name +
+    //       "</a>";
+    //   }
+    //   $(".menus div").html(menushtm);
+    //   //console.log("first:"+first)
+    //   //console.log("dilsec:"+dilsecimi)
+    //   if (first > 0) {
+    //     showMenus();
+    //     first = 0;
+
+    //   }
+    // }
+
+    if (data.multim.length > 1 && data.mtbm!=1) { //yeni fonksiyon fatih abiden geldi
       $(".gomains i").text(data.multim.length);
       $(".gomains").removeClass("hide");
 
@@ -2618,7 +2655,7 @@ function filterUruns(txt) {
       if (first > 0) {
         showMenus();
         first = 0;
-
+      
       }
     }
 
@@ -2789,7 +2826,17 @@ function filterUruns(txt) {
 
         $('.icerik2').html(html2)
 
+        if (data.hasOwnProperty('mappbadge')){
 
+          if(data.mappbadge==0){
+
+            
+            $('.icerik2').html('');
+         
+
+          }
+
+        }
       } else {
         //$('.tabmenu nav').css('padding-bottom','50px')
         $('.altmenu .appdown').css('display', 'none')
@@ -2898,6 +2945,10 @@ function filterUruns(txt) {
       else {
 
         //tema4
+        if (data.mtbm==1){
+          $(".sonyayintr").html(ln_key[curln]['lastu']+": "+ data.menuyayintr.split(" ")[0] +" (" +zamanOnce(data.menuyayintr,curln)+")");
+        }
+
         var gdata = '<div class="menu-container">';
         if (urndata.length > 0) {
 
@@ -2920,6 +2971,17 @@ function filterUruns(txt) {
 
         console.log('src gizle');
         $(".btnSrc").addClass('hide');
+
+        if (data.hasOwnProperty('mtbm')){
+
+          if(data.mtbm==1){
+
+            $('.nav__toggle').addClass("hide");
+           
+
+          }
+
+        }
 
       }
 
@@ -3590,7 +3652,7 @@ function filterUruns(txt) {
 
 
 
-            $("#app").animate({ scrollTop: 0 }, 'fast');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
             //console.log("slide changed")
             ////console.log(swiper);
             //console.log(swiper.activeIndex);

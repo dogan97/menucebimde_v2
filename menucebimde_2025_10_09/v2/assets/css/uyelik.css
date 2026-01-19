@@ -200,3 +200,89 @@
     font-weight: 700;
 }
 
+/* Pre-filled Alan Stilleri */
+.resv-input-wrapper.is-prefilled {
+    background: #f1f5f9;
+    border-radius: 12px;
+    border: 1px dashed #cbd5e1;
+}
+
+.resv-input-wrapper.is-prefilled .resv-input {
+    background: transparent;
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+.prefilled-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2ecc71;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Şifre Toggle */
+.toggle-password {
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: var(--resv-accent) !important;
+}
+
+/* Hızlı Üyelik Kartı Revizesi */
+.quick-signup-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 15px 0;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.quick-signup-card h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.quick-signup-card p {
+    font-size: 13px;
+    color: #64748b;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-submit-btn {
+    width: 100%;
+    background: var(--resv-accent);
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.signup-submit-btn:active {
+    transform: scale(0.98);
+}
+
+.signup-submit-btn i {
+    transition: transform 0.3s ease;
+}
+
+.signup-submit-btn:hover i {
+    transform: translateX(5px);
+}

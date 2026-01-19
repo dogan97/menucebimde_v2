@@ -461,57 +461,100 @@ var resvSuccessModalHtml = `
         <h3>Hızlı Üyelik Oluşturun</h3>
         <p>Bilgilerinizle üyeliğinizi hemen tamamlayın, size özel avantajlardan ve kampanyalardan haberdar olun!</p>
         
-        <form id="quickSignupForm">
-          <div class="signup-info-display">
-            <div class="info-item">
-              <i class="fas fa-user"></i>
-              <span id="display-name">Ad Soyad</span>
-            </div>
-            <div class="info-item">
-              <i class="fas fa-phone"></i>
-              <span id="display-phone">Telefon</span>
+        <form id="quickSignupForm" class="resv-grid">
+          <!-- Rezervasyondan Gelen Bilgiler (Pre-filled) -->
+          <div class="resv-field">
+            <div class="resv-input-wrapper is-prefilled">
+              <input id="q-name" name="name" type="text" readonly class="resv-input" placeholder=" ">
+              <label for="q-name" class="resv-floating-label">Ad Soyad</label>
+              <i class="fas fa-check-circle prefilled-icon"></i>
             </div>
           </div>
 
-          <div class="communication-prefs">
-            <h4>İletişim Tercihleriniz</h4>
-            <div class="prefs-grid">
-              <label class="pref-item">
-                <input type="checkbox" name="pref_sms" checked>
-                <div class="pref-content">
-                  <i class="fas fa-sms"></i>
-                  <span>SMS</span>
-                </div>
-              </label>
-              <label class="pref-item">
-                <input type="checkbox" name="pref_email" checked>
-                <div class="pref-content">
-                  <i class="fas fa-envelope"></i>
-                  <span>E-Posta</span>
-                </div>
-              </label>
-              <label class="pref-item">
-                <input type="checkbox" name="pref_call" checked>
-                <div class="pref-content">
-                  <i class="fas fa-phone-alt"></i>
-                  <span>Arama</span>
-                </div>
-              </label>
+          <div class="resv-field">
+            <div class="resv-input-wrapper is-prefilled">
+              <input id="q-phone" name="phone" type="tel" readonly class="resv-input" placeholder=" ">
+              <label for="q-phone" class="resv-floating-label">Telefon</label>
+              <i class="fas fa-check-circle prefilled-icon"></i>
             </div>
           </div>
 
-          <div class="signup-consent">
-            <label class="resv-check">
-              <input type="checkbox" name="signup_consent" required>
-              <span>Üyelik sözleşmesini ve kişisel verilerimin pazarlama amaçlı işlenmesini kabul ediyorum.</span>
-            </label>
+          <div class="resv-field">
+            <div class="resv-input-wrapper is-prefilled">
+              <input id="q-email" name="email" type="email" readonly class="resv-input" placeholder=" ">
+              <label for="q-email" class="resv-floating-label">E-posta</label>
+              <i class="fas fa-check-circle prefilled-icon"></i>
+            </div>
+          </div>
+
+          <!-- Yeni Bilgiler -->
+          <div class="resv-field">
+            <div class="resv-input-wrapper">
+              <input id="q-birthday" name="birthday" type="date" required class="resv-input" placeholder=" ">
+              <label for="q-birthday" class="resv-floating-label">Doğum Tarihiniz</label>
+            </div>
+          </div>
+
+          <div class="resv-field">
+            <div class="resv-input-wrapper">
+              <select id="q-gender" name="gender" required class="resv-input resv-select">
+                <option value="" disabled selected hidden> </option>
+                <option value="kadin">Kadın</option>
+                <option value="erkek">Erkek</option>
+                <option value="belirtmek-istemihorum">Belirtmek İstemiyorum</option>
+              </select>
+              <label for="q-gender" class="resv-floating-label">Cinsiyet</label>
+              <i class="fas fa-chevron-down resv-select-icon"></i>
+            </div>
+          </div>
+
+          <div class="resv-field">
+            <div class="resv-input-wrapper">
+            <input id="q-password" name="password" type="password" required class="resv-input" placeholder=" ">
+            <label for="q-password" class="resv-floating-label">Şifre Belirleyin</label>
+            <i class="fas fa-eye toggle-password" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #64748b; cursor: pointer; z-index: 10;"></i>
+          </div>
+          </div>
+
+          <div class="resv-field resv-field--full">
+            <div class="communication-prefs">
+              <h4>İletişim Tercihleriniz</h4>
+              <div class="prefs-grid">
+                <label class="pref-item">
+                  <input type="checkbox" name="pref_sms" checked>
+                  <div class="pref-content">
+                    <span>SMS</span>
+                  </div>
+                </label>
+                <label class="pref-item">
+                  <input type="checkbox" name="pref_email" checked>
+                  <div class="pref-content">
+                    <span>E-Posta</span>
+                  </div>
+                </label>
+                <label class="pref-item">
+                  <input type="checkbox" name="pref_call" checked>
+                  <div class="pref-content">
+                    <span>Telefon</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="resv-field resv-field--full">
+            <div class="signup-consent">
+              <label class="resv-check">
+                <input type="checkbox" name="signup_consent" required>
+                <span>Üyelik sözleşmesini ve kişisel verilerimin pazarlama amaçlı işlenmesini kabul ediyorum.</span>
+              </label>
+            </div>
           </div>
 
           <button type="submit" class="signup-submit-btn">
             <span>Üyeliği Tamamla</span>
             <i class="fas fa-arrow-right"></i>
           </button>
-          <p class="signup-note">* Şifreniz telefonunuza SMS ile iletilecektir.</p>
         </form>
       </div>
 
@@ -528,6 +571,7 @@ var main =
     <div class="headbar">`+ navmenu + navbtn + `<img src="v2/assets/img/small-noimg.jpg" />` + navsplash2 + navsplash + `</div>
     <div class="searchbar"><i class="fa fa-search"></i><input type="text" id="txtsearch" placeholder="Ürün ara.." /><a>Kapat</a></div>
     <div class="gruplar noimg onerow"><ul></ul></div>
+    <div class="sonyayintr"></div>\
     <div class="urunler noimg" style="display:none"><ul></ul></div>
     </div>`;
 
@@ -974,6 +1018,27 @@ var uyelik = `
             <label for="mbr-birthday" class="resv-floating-label">Doğum Tarihiniz</label>
           </div>
           <small class="mbr-hint">* Sürpriz doğum günü hediyelerimiz için.</small>
+        </div>
+
+        <div class="resv-field">
+          <div class="resv-input-wrapper">
+            <select id="mbr-gender" name="gender" required class="resv-input resv-select">
+              <option value="" disabled selected hidden> </option>
+              <option value="kadin">Kadın</option>
+              <option value="erkek">Erkek</option>
+              <option value="belirtmek-istemihorum">Belirtmek İstemiyorum</option>
+            </select>
+            <label for="mbr-gender" class="resv-floating-label">Cinsiyet</label>
+            <i class="fas fa-chevron-down resv-select-icon"></i>
+          </div>
+        </div>
+
+        <div class="resv-field">
+          <div class="resv-input-wrapper">
+            <input id="mbr-password" name="password" type="password" required class="resv-input" placeholder=" ">
+            <label for="mbr-password" class="resv-floating-label">Şifre Belirleyin</label>
+            <i class="fas fa-eye toggle-password" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #64748b; cursor: pointer; z-index: 10;"></i>
+          </div>
         </div>
 
         <div class="resv-field resv-field--full">

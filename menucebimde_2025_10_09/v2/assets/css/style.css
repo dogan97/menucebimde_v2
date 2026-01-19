@@ -33,39 +33,62 @@ ul {
 }
 
 * {
-  -webkit-user-select: none; /* Chrome all / Safari all */
-  -moz-user-select: none; /* Firefox all */
-  -ms-user-select: none; /* IE 10+ */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
+  -webkit-touch-callout: none;
+  box-sizing: border-box;
 }
 
-/*-------*/
+/* Kaydırma Stickiness (Yapışkanlık) Sorunu Çözümü */
+html {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
 
-html,
 body {
   --backbtncolor: #333;
   --lang: 'tr';
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: -apple-system, SF UI Text, Helvetica Neue, Helvetica, Arial,
-    sans-serif;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  font-family: -apple-system, SF UI Text, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 #app {
   width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
 }
 .page {
   position: relative;
   left: 0;
   top: 0;
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   background: #fff;
-  float: left;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Sayfa içindeki ana içerik alanlarının aşağı kadar uzamasını sağlar */
+.page.list .urunler, 
+.page.urun .detay,
+.page.uyelik .uyelik-wrap,
+.page.rezervasyon .resv-wrap {
+  flex: 1;
 }
 .overlay {
   position: absolute;
@@ -347,9 +370,14 @@ body {
   /*border-radius düzgün olsun diye*/
   /*overflow: hidden;*/
 
-  
-  height: 100%;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
   position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  background: #fff;
 }
 
 .start.openned{
@@ -374,6 +402,7 @@ body {
     width: 100%;
     min-height: 100%;
     background: rgba(var(--backbtncolorrgb),.2);
+    z-index: 5;
 }
 
 .main {
