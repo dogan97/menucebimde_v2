@@ -1,0 +1,167 @@
+/* Tema 6: Elite Scroll & Dynamic Cards (Luxury Fine-Dining) */
+
+:root {
+    --t6-card-bg: #ffffff;
+    --t6-text-main: #1a1a1a;
+    --t6-text-muted: #666666;
+    --t6-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.page.t6-main {
+    background-color: #fcfcfc;
+}
+
+/* 1. Yatay Kayan Kategoriler (Horizontal Ribbon) */
+.t6-category-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+}
+
+.t6-category-nav::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.t6-category-list {
+    display: inline-flex;
+    padding: 0 15px;
+    gap: 12px;
+}
+
+.t6-cat-item {
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t6-text-main);
+    background: #f0f0f0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.t6-cat-item.active {
+    background: var(--backbtncolor);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(var(--backbtncolorrgb), 0.3);
+}
+
+/* 2. Lüks Ürün Kartları (Luxury Product Cards) */
+.t6-product-grid {
+    padding: 20px 15px;
+}
+
+.t6-product-card {
+    background: var(--t6-card-bg);
+    border-radius: 20px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    box-shadow: var(--t6-shadow);
+    transition: transform 0.3s ease;
+}
+
+.t6-product-card:active {
+    transform: scale(0.98);
+}
+
+.t6-card-image-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 65%; /* 16:10 Aspect Ratio */
+    background-color: #f5f5f5;
+}
+
+.t6-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.t6-card-content {
+    padding: 20px;
+}
+
+.t6-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.t6-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--t6-text-main);
+    flex: 1;
+    margin-right: 15px;
+}
+
+.t6-card-price {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--backbtncolor);
+    white-space: nowrap;
+}
+
+.t6-card-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--t6-text-muted);
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.t6-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.t6-alerjen-list {
+    display: flex;
+    gap: 6px;
+}
+
+.t6-alerjen-img {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+}
+
+.t6-add-btn {
+    background: var(--backbtncolor);
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(var(--backbtncolorrgb), 0.2);
+}
+
+/* Category Sticky Header for Scrolling */
+.t6-section-title {
+    font-size: 22px;
+    font-weight: 800;
+    padding: 5px 0;
+    margin: 10px 0;
+    color: var(--t6-text-main);
+    border-bottom: 2px solid var(--backbtncolor);
+    display: inline-block;
+}

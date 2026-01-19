@@ -2315,7 +2315,14 @@ function filterUruns(txt) {
 
             }
 
-  }
+          }
+
+          // Tema 5 & 6 Önizleme Modu (URL'de tema=X varsa)
+          var urlTema = getParameterByName('tema');
+          if (urlTema == '5' || urlTema == '6') {
+            data.tema = parseInt(urlTema);
+            console.log("Tema " + urlTema + " Önizleme Modu Aktif!");
+          }
 
 
           if (data.hasOwnProperty('menualtitxt')) {
@@ -2898,6 +2905,148 @@ function filterUruns(txt) {
 
 
       
+      if (data.tema == 5) {
+        let menuHtml = `<div class="a4menu">`;
+        for (let i = 0; i < urndata.length; i++) {
+          let kategori = urndata[i];
+          if (kategori.ydata.length === 0) continue;
+          menuHtml += `<div class="a4menu-category"><h2>${kategori.name}</h2>`;
+          for (let j = 0; j < kategori.ydata.length; j++) {
+            let urun = kategori.ydata[j];
+            let fiyat = urun.portions && urun.portions[0] ? urun.portions[0].price : '';
+            menuHtml += `
+              <div class="a4menu-item">
+                <div class="a4menu-item-left">
+                  <strong>${urun.title}</strong>
+                  ${urun.desc ? `<span>${urun.desc}</span>` : ''}
+                </div>
+                <div class="a4menu-item-right">${fiyatyap(fiyat, data.currency)}</div>
+              </div>`;
+          }
+          menuHtml += `</div>`;
+        }
+        menuHtml += `</div>`;
+        $(".main").html(menuHtml).css("background", "#fff");
+        return;
+      }
+
+      // TEMA 6: Elite Scroll & Luxury Cards
+      if (data.tema == 6) {
+        // Default barları korumak için sadece içerik alanlarını gizliyoruz
+        $(".main .searchbar, .main .gruplar, .main .urunler, .main .sonyayintr, .featured-products").hide();
+        
+        // Eğer zaten eklenmemişse Tema 6 konteynerini oluştur
+        if ($(".t6-content-wrapper").length === 0) {
+            $(".main").append('<div class="t6-content-wrapper"></div>');
+        }
+
+        let t6Html = `
+          <nav class="t6-category-nav">
+            <div class="t6-category-list">`;
+        
+        // Kategori Navigasyonu
+        for (let i = 0; i < urndata.length; i++) {
+          if (urndata[i].ydata.length === 0) continue;
+          t6Html += `<div class="t6-cat-item ${i === 0 ? 'active' : ''}" data-target="cat-${i}">${urndata[i].name}</div>`;
+        }
+        
+        t6Html += `</div></nav><div class="t6-product-grid">`;
+
+        // Ürün Listesi
+        for (let i = 0; i < urndata.length; i++) {
+          let kategori = urndata[i];
+          if (kategori.ydata.length === 0) continue;
+
+          t6Html += `<h2 class="t6-section-title" id="cat-${i}">${kategori.name}</h2>`;
+
+          for (let j = 0; j < kategori.ydata.length; j++) {
+            let urun = kategori.ydata[j];
+            let fiyat = urun.portions && urun.portions[0] ? urun.portions[0].price : 0;
+            let resim = getresim(urun.photo, 1);
+            
+            t6Html += `
+              <div class="t6-product-card" data-gid="${i}" data-uid="${j}">
+                <div class="t6-card-image-wrap">
+                  <img src="${resim}" class="t6-card-image" onerror="this.src='${noimg}'" />
+                </div>
+                <div class="t6-card-content">
+                  <div class="t6-card-header">
+                    <h3 class="t6-card-title">${urun.title}</h3>
+                    <span class="t6-card-price">${fiyatyap(fiyat, data.currency)}</span>
+                  </div>
+                  <p class="t6-card-desc">${urun.content || urun.desc || ''}</p>
+                  <div class="t6-card-footer">
+                    <div class="t6-alerjen-list">`;
+            
+            // Alerjenler
+            if (urun.alerjen && urun.alerjen.length > 0) {
+              for (let k = 0; k < urun.alerjen.length; k++) {
+                t6Html += `<img src="v2/assets/img/alerjen/${urun.alerjen[k]}.png" class="t6-alerjen-img" />`;
+              }
+            }
+
+            t6Html += `</div>
+                  </div>
+                </div>
+              </div>`;
+          }
+        }
+
+        t6Html += `</div>`;
+        $(".t6-content-wrapper").html(t6Html);
+
+        // Sepet butonu görünürlüğü
+        if (data.ssepet > 0) {
+            $(".sepet").removeClass("hide");
+        }
+
+        // Kategori Tıklama ve Scroll Mantığı
+        $(".t6-cat-item").on("click", function() {
+          const target = $(this).data("target");
+          const offset = $("#" + target).offset().top - 130; // Header payı eklendi
+          $("html, body").animate({ scrollTop: offset }, 500);
+          $(".t6-cat-item").removeClass("active");
+          $(this).addClass("active");
+        });
+
+        // Ürün Tıklama (Detay Sayfasına Git)
+        $(".t6-product-card").on("click", function() {
+          const gid = $(this).data("gid");
+          const uid = $(this).data("uid");
+          loadPage("slide", { gid: gid, uid: uid }, true);
+        });
+
+        // SCROLL-SPY: Kaydırdıkça Üstteki Tabları Güncelleme
+        $(window).off("scroll.t6spy").on("scroll.t6spy", function() {
+            if (data.tema != 6 || _page != "main") return;
+
+            let scrollPos = $(window).scrollTop() + 150; // Offset payı
+            let currentCat = "";
+
+            $(".t6-section-title").each(function() {
+                let sectionTop = $(this).offset().top;
+                if (scrollPos >= sectionTop) {
+                    currentCat = $(this).attr("id");
+                }
+            });
+
+            if (currentCat) {
+                let $activeTab = $(`.t6-cat-item[data-target="${currentCat}"]`);
+                if (!$activeTab.hasClass("active")) {
+                    $(".t6-cat-item").removeClass("active");
+                    $activeTab.addClass("active");
+                    
+                    // Aktif olan tabı yatay barda görünür yap (Otomatik kaydır)
+                    let container = $(".t6-category-nav");
+                    let scrollLeft = $activeTab.position().left + container.scrollLeft() - (container.width() / 2) + ($activeTab.width() / 2);
+                    container.animate({ scrollLeft: scrollLeft }, 200);
+                }
+            }
+        });
+
+        return;
+      }
+
       if (data.tema != 4) {
         ////console.log(urndata);
         var gdata = "";
@@ -3204,8 +3353,11 @@ function filterUruns(txt) {
       }
 
       backfn = function () {
-        loadPage("list", { gid: gid, sctop: sctop }, true);
-        //loadPage("main", { sctop: gctop }, true);
+        if (data.tema == 6 || data.tema == 4 || data.tema == 5) {
+          loadPage("main", { sctop: gctop }, true);
+        } else {
+          loadPage("list", { gid: gid, sctop: sctop }, true);
+        }
       };
 
       var htmlSlide = '';
@@ -3578,6 +3730,7 @@ function filterUruns(txt) {
           $('.swiper-button-prev').hide();
           break;
         case 2:
+        case 6: // Tema 6 için de resimleri aktif ediyoruz
           $(".swiper-slide .detay").attr("class", "detay pz-Media");
           break;
         case 3:
