@@ -2335,7 +2335,7 @@ function filterUruns(txt) {
 
           } else {
 
-            data.menualtitxt = { "tr": "", "en": "", "ar": "" };
+            data.menualtitxt = { "tr": "", "en": "", "ar": "", "nl": "" };
 
           }
 
@@ -2379,9 +2379,9 @@ function filterUruns(txt) {
           if (lkeys.length > 1) {
             if (clang != "") {
 
-              curln = "tr"
+              curln = (menuID == "02C3NN") ? "nl" : "tr"
               dilsecimi = 1;
-              document.cookie = "lang=tr; expires=Thu, 01 Jan 2100 00:00:00 UTC;";
+              document.cookie = "lang=" + curln + "; expires=Thu, 01 Jan 2100 00:00:00 UTC;";
               //clang="";
               for (var i = 0; i < lkeys.length; i++) {
                 //console.log(lkeys[i]);
@@ -2399,7 +2399,7 @@ function filterUruns(txt) {
             }
           } else {
 
-            curln = "tr"
+            curln = (menuID == "02C3NN") ? "nl" : "tr"
             dilsecimi = 1;
 
           }
@@ -2824,9 +2824,7 @@ function filterUruns(txt) {
 
 
       html2 = html + '</div>'
-      html = `<div class="badges"><a><img src="v2/assets/img/badge.as.png"></a>
-     <a><img src="v2/assets/img/badge.gp.png"></a>'
-      </div><span><ln class="tbapp">Uygulamayı yükle, menüleri keşfet.</ln></span><span class="spncom">menucebimde.com</span>`;
+      html = `<div class="badges"><a><img src="v2/assets/img/badge.as.png"></a><a><img src="v2/assets/img/badge.gp.png"></a></div>`;
 
       html3 = '<span class="spncom">menucebimde.com</span>'
 
@@ -2836,7 +2834,7 @@ function filterUruns(txt) {
 
         $('.tabmenu').append('<div class="icerik" style=""><div class="icerikbg">' + html3 + '</div></div>')
 
-        $('.icerik2').html(html2)
+        $('.icerik2').html(html)
 
         if (data.hasOwnProperty('mappbadge')){
 
@@ -3054,7 +3052,7 @@ function filterUruns(txt) {
           }
         }
 
-        var gaciklama = '<div class="menualtitxt">' + data.menualtitxt[curln] + '</div>';
+        var gaciklama = '<div class="menualtitxt">' + (data.menualtitxt[curln] || data.menualtitxt['tr'] || '') + '</div>';
         document.querySelector(".gruplar").insertAdjacentHTML("beforebegin", slider);
 
         switch (data.tema) {
@@ -3108,7 +3106,7 @@ function filterUruns(txt) {
 
           }
         }
-        var gaciklama = '<div class="menualtitxt">' + data.menualtitxt[curln] + '</div>';
+        var gaciklama = '<div class="menualtitxt">' + (data.menualtitxt[curln] || data.menualtitxt['tr'] || '') + '</div>';
 
         $(".main .gruplar").html(gdata + '</div>');
         $(".main .gruplar").append(gaciklama);

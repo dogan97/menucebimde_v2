@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çalışma Saatleri Ayarları | MenuCebimde Panel</title>
+    <link rel="stylesheet" href="v2/assets/fontawesome/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff; /* Marka Rengi (Mavi) */
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-main: #333;
+            --text-muted: #777;
+            --border-color: #e0e0e0;
+            --danger-color: #ff4d4d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .admin-container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 25px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 15px;
+        }
+
+        .header i {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .day-row, .exception-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 1fr 80px;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .exception-row {
+            grid-template-columns: 140px 1fr 1fr 60px 40px;
+        }
+
+        .day-row:last-child {
+            border-bottom: none;
+        }
+
+        .day-name {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        input[type="time"], input[type="date"] {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            outline: none;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        input[type="time"]:focus, input[type="date"]:focus {
+            border-color: var(--primary-color);
+        }
+
+        .closed-toggle {
+            text-align: center;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--danger-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .row-labels {
+            display: grid;
+            grid-template-columns: 120px 1fr 1fr 80px;
+            gap: 10px;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .exception-labels {
+            grid-template-columns: 140px 1fr 1fr 60px 40px;
+        }
+
+        .save-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s;
+        }
+
+        .add-btn {
+            background: none;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .add-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .delete-btn {
+            color: var(--danger-color);
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 18px;
+        }
+
+        .json-output {
+            margin-top: 20px;
+            background: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            display: none;
+            overflow-x: auto;
+        }
+
+        .day-row.is-closed input, .exception-row.is-closed input[type="time"] {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .day-row.is-closed .day-name {
+            color: var(--danger-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <div class="header">
+        <i class="fas fa-clock"></i>
+        <h2>Çalışma Saatleri Yönetimi</h2>
+    </div>
+
+    <form id="workingHoursForm">
+        <!-- Haftalık Çalışma Saatleri -->
+        <div class="section-title">Haftalık Çalışma Saatleri</div>
+        <div class="row-labels">
+            <div>GÜN</div>
+            <div>AÇILIŞ</div>
+            <div>KAPANIŞ</div>
+            <div style="text-align: center;">KAPALI</div>
+        </div>
+        <div id="daysList"></div>
+
+        <!-- Özel Günler / Resmi Tatiller -->
+        <div class="section-title">
+            Özel Günler & Tatiller
+            <button type="button" class="add-btn" onclick="addException()">+ Yeni Ekle</button>
+        </div>
+        <div class="row-labels exception-labels">
+            <div>TARİH</div>
+            <div>AÇILIŞ</div>
+            <div>KAPANIŞ</div>
+            <div style="text-align: center;">KAPALI</div>
+            <div></div>
+        </div>
+        <div id="exceptionsList"></div>
+
+        <button type="submit" class="save-btn">TÜM AYARLARI KAYDET</button>
+    </form>
+
+    <div id="jsonPreview" class="json-output">
+        <strong>Backend'e Gidecek Veri (JSON):</strong><br><br>
+        <code id="jsonText"></code>
+    </div>
+</div>
+
+<script>
+    const days = [
+        { id: 'mon', name: 'Pazartesi' },
+        { id: 'tue', name: 'Salı' },
+        { id: 'wed', name: 'Çarşamba' },
+        { id: 'thu', name: 'Perşembe' },
+        { id: 'fri', name: 'Cuma' },
+        { id: 'sat', name: 'Cumartesi' },
+        { id: 'sun', name: 'Pazar' }
+    ];
+
+    const daysList = document.getElementById('daysList');
+    const exceptionsList = document.getElementById('exceptionsList');
+
+    // Haftalık günleri oluştur
+    days.forEach(day => {
+        const row = document.createElement('div');
+        row.className = 'day-row';
+        row.id = `row-${day.id}`;
+        row.innerHTML = `
+            <div class="day-name">${day.name}</div>
+            <div><input type="time" name="${day.id}_open" value="09:00"></div>
+            <div><input type="time" name="${day.id}_close" value="22:00"></div>
+            <div class="closed-toggle">
+                <label class="switch">
+                    <input type="checkbox" name="${day.id}_closed" onchange="toggleRow('${day.id}')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        `;
+        daysList.appendChild(row);
+    });
+
+    function toggleRow(id) {
+        const row = document.getElementById(`row-${id}`);
+        row.classList.toggle('is-closed');
+    }
+
+    function addException() {
+        const id = 'ex_' + Date.now();
+        const row = document.createElement('div');
+        row.className = 'exception-row';
+        row.id = `row-${id}`;
+        row.innerHTML = `
+            <div><input type="date" name="${id}_date" required></div>
+            <div><input type="time" name="${id}_open" value="09:00"></div>
+            <div><input type="time" name="${id}_close" value="22:00"></div>
+            <div class="closed-toggle">
+                <label class="switch">
+                    <input type="checkbox" name="${id}_closed" onchange="toggleRow('${id}')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div style="text-align: right;">
+                <button type="button" class="delete-btn" onclick="removeRow('${id}')">
+                    <i class="fas fa-times-circle"></i>
+                </button>
+            </div>
+        `;
+        exceptionsList.appendChild(row);
+    }
+
+    function removeRow(id) {
+        document.getElementById(`row-${id}`).remove();
+    }
+
+    document.getElementById('workingHoursForm').onsubmit = function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        const weekly = {};
+        days.forEach(day => {
+            weekly[day.id] = {
+                open: formData.get(`${day.id}_open`),
+                close: formData.get(`${day.id}_close`),
+                closed: formData.get(`${day.id}_closed`) === 'on'
+            };
+        });
+
+        const exceptions = [];
+        const exceptionRows = document.querySelectorAll('.exception-row');
+        exceptionRows.forEach(row => {
+            const id = row.id.replace('row-', '');
+            exceptions.push({
+                date: formData.get(`${id}_date`),
+                open: formData.get(`${id}_open`),
+                close: formData.get(`${id}_close`),
+                closed: formData.get(`${id}_closed`) === 'on'
+            });
+        });
+
+        const finalData = {
+            weekly_hours: weekly,
+            special_days: exceptions
+        };
+
+        // JSON Çıktısı
+        const jsonStr = JSON.stringify(finalData, null, 2);
+        document.getElementById('jsonText').textContent = jsonStr;
+        document.getElementById('jsonPreview').style.display = 'block';
+
+        console.log("Kaydedilecek Veri:", finalData);
+        alert("Tüm ayarlar (Haftalık + Özel Günler) hazırlandı! JSON çıktısını kontrol edebilirsiniz.");
+    };
+</script>
+
+</body>
+</html>

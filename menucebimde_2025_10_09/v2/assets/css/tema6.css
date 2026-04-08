@@ -142,9 +142,9 @@
 }
 
 .t6-item-price {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--t6-text-main);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--backbtncolor);
 }
 
 .t6-item-alerjens {

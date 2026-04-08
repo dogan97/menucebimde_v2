@@ -126,6 +126,38 @@ const ln_key = {
     'lastu': 'Last Updated',
     'tbhakkimizda': 'About Us',
   },
+  'nl': {
+    'dil': 'Nederlands',
+    'urun-ara': 'Zoeken..',
+    'sepete-git': 'NAAR BESTELLING',
+    'porsiyon-sec': 'PORTIE KIEZEN',
+    'urun-adedi': 'AANTAL PRODUCTEN',
+    'sepete-ekle': 'AAN BESTELLING TOEVOEGEN',
+    'toplam': 'Totaal :',
+    'siparisi-gonder': 'BESTELLING VERZENDEN',
+    'masa-kodunuzu-giriniz': 'Voer de beveiligingscode in',
+    'numarayi-dogrula': 'BESTELLING VERZENDEN',
+    'iptal': 'ANNULEREN',
+    'sil': 'VERWIJDEREN',
+    'kapat': 'Sluiten',
+    'ana-menu': 'HOOFDMENU',
+    'siparisiniz-alindi': 'Uw bestelling is ontvangen',
+    'sipok': 'U kunt terugkeren naar het hoofdmenu <br>voor uw nieuwe bestellingen.',
+    'tesekkurler': 'Dankuwel..',
+    'sepet-urun-yok': 'U heeft nog geen producten in uw bestelling.',
+    'hesap-urun-yok': 'Er is nog geen open rekening.',
+    'sepet-cikar': "Product uit uw bestelling verwijderen?",
+    'porsiyon-yok': "U heeft geen portie gekozen..",
+    'masasecimi-yok': "Selecteer alstublieft een tafel.",
+    'tbmenu': 'Menu',
+    'tbhesap': 'Mijn Rekening',
+    'tbgarson': 'Ober Roepen',
+    'tbanket': 'Feedback en Suggesties',
+    'tbdil': 'Taalkeuze',
+    'tbapp': 'Download app, ontdek menu\'s.',
+    'lastu': 'Laatste Update',
+    'tbhakkimizda': 'Reservering Maken',
+  },
 };
 
 
@@ -146,6 +178,10 @@ const data_language_keys = {
   'de': {
     "companyName": "Firmenname",
     "whatsapptext": "Schreiben Sie auf WhatsApp",
+  },
+  'nl': {
+    "companyName": "Bedrijfsnaam",
+    "whatsapptext": "Schrijf op WhatsApp",
   },
 };
 function setLangs(curln, data) {
@@ -193,6 +229,18 @@ function setLangs(curln, data) {
 
   $('.sepetim.sepetimhizli .sepet h2').text('BİTİR');
 
+  if (curln === 'nl') {
+    $('.anket .sepet h2').html('<i class="fa fa-star"></i> ENQUÊTE VERZENDEN');
+    $('.danket .masasepet').text('Feedback en Suggesties');
+    $('.danket .giris').html('Beste klant,<br>Uw feedback wordt zorgvuldig beoordeeld. Wij vragen u vriendelijk uw waardevolle mening met ons te delen.<br>Hartelijk dank voor de tijd die u aan onze enquête besteedt.');
+    $('#q1 > div:first-child').text('Service:');
+    $('#q2 > div:first-child').text('Smaak:');
+    $('#q3 > div:first-child').text('Presentatie:');
+    $('#q4 > div:first-child').text('Portie:');
+    $('#q5 > div:first-child').text('Sfeer:');
+    $('.question2 > div:first-child').text('Uw mening en suggesties:');
+  }
+
 //aboutus_language(curln)
 }
 
@@ -203,6 +251,7 @@ function current_ln_urundata(curln, data) {
     case "en": return data.mdata_en; break;
     case "ar": return data.mdata_ar; break;
     case "de": return data.mdata_de; break;
+    case "nl": return data.mdata; break;
     default: return data.mdata; break;
   }
 

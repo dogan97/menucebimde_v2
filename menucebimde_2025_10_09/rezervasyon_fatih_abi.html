@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezervasyon Entegrasyon Paketi | Fatih Abi İçin</title>
+    <!-- Gerekli CSS Kütüphaneleri -->
+    <link rel="stylesheet" href="v2/assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="v2/assets/css/rezervasyon.css">
+    <style>
+        /* Proje genelinden gelen bazı kritik stiller */
+        :root {
+            --backbtncolor: #007bff; /* Mavi yaptık */
+            --backbtncolorrgb: 0, 123, 255;
+        }
+        body { font-family: sans-serif; margin: 0; background: #f4f7f6; }
+        .integration-note {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            margin: 20px;
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        #app { position: relative; min-height: 100vh; }
+        .page { display: none; }
+        .page.active { display: block; }
+        
+        /* Güvenlik ekranı için ek stiller (style.css'den) */
+        .pview h5 { display: flex; justify-content: center; gap: 10px; font-size: 24px; margin: 20px 0; }
+        .pview h5 i { width: 30px; height: 40px; border-bottom: 2px solid #ccc; display: flex; align-items: center; justify-content: center; font-style: normal; }
+        .pview h5 i.pin { background: #eee; border-radius: 4px; }
+        .ppos ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 300px; margin: 0 auto; }
+        .ppos ul li a { display: flex; align-items: center; justify-content: center; height: 60px; background: #fff; border: 1px solid #ddd; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; text-decoration: none; color: #333; }
+        .ppos ul li a:active { background: #eee; }
+        .pdesc { text-align: center; margin-bottom: 20px; color: #666; }
+        .divcaptcha { text-align: center; font-weight: bold; font-size: 24px; letter-spacing: 5px; margin: 10px 0; color: var(--backbtncolor); }
+    </style>
+</head>
+<body>
+
+    <div class="integration-note">
+        <strong>Fatih Abi Selam!</strong> Bu dosya rezervasyon akışının frontend parçalarını içerir. 
+        <code>static_html.js</code>, <code>main.js</code> ve <code>rezervasyon_ekstra.js</code> içindeki orijinal kodlar birleştirilmiştir.
+    </div>
+
+    <div id="app">
+        <!-- Sayfalar buraya yüklenecek -->
+    </div>
+
+    <!-- JQuery Gerekli -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // --- 1. HTML ŞABLONLARI (static_html.js'den orijinal halleriyle) ---
+        
+        var rezervasyonHTML = `
+        <div class="page wthead rezervasyon active">
+            <div class="bottom">
+                <div class="backbtn"></div>
+                <div class="sepet">
+                    <h2><i class="fas fa-calendar-check"></i> REZERVASYON</h2>
+                </div>
+            </div>
+            <section class="resv-wrap">
+                <form class="resv-card" id="reservationForm">
+                    <header class="resv-head">
+                        <h1 class="resv-title"><i class="fas fa-calendar-check"></i> Rezervasyon</h1>
+                        <p class="resv-sub">Lütfen bilgileri doldurun; ekibimiz en kısa sürede dönüş yapacaktır.</p>
+                    </header>
+                    <div class="resv-grid">
+                        <div class="resv-field">
+                            <div class="resv-input-wrapper">
+                                <select id="resv-people" name="people" required class="resv-input resv-select">
+                                    <option value="1">1 Kişi</option>
+                                    <option value="2" selected>2 Kişi</option>
+                                    <option value="4">4 Kişi</option>
+                                </select>
+                                <label class="resv-floating-label">Kişi Sayısı</label>
+                            </div>
+                        </div>
+                        <div class="resv-field">
+                            <div class="resv-input-wrapper">
+                                <input id="resv-name" name="name" type="text" required class="resv-input" placeholder=" ">
+                                <label class="resv-floating-label">Ad Soyad</label>
+                            </div>
+                        </div>
+                        <div class="resv-field">
+                            <div class="resv-input-wrapper">
+                                <input id="resv-phone" name="phone" type="tel" required class="resv-input" placeholder=" ">
+                                <label class="resv-floating-label">Telefon</label>
+                            </div>
+                        </div>
+                        <div class="resv-field resv-field--full">
+                            <div class="resv-input-wrapper">
+                                <input id="resv-email" name="email" type="email" class="resv-input" placeholder=" " required>
+                                <label class="resv-floating-label">E-posta</label>
+                            </div>
+                        </div>
+                        <div class="resv-field resv-field--full resv-consent">
+                            <label class="resv-check">
+                                <input type="checkbox" name="consent" required checked>
+                                <span>KVKK kapsamında verilerimin işlenmesini kabul ediyorum.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <footer class="resv-actions">
+                        <button type="submit" class="resv-btn resv-btn--primary">
+                            <i class="fas fa-paper-plane"></i> Devam Et
+                        </button>
+                    </footer>
+                </form>
+            </section>
+        </div>`;
+
+        var secure2HTML = `
+        <div class="page wthead secure active">
+            <div class="bottom"><div class="sepet"><h2><i class="fa fa-hand-pointer-o"></i> DEVAM </h2></div></div>
+            <div class="pview"><h5><i class="pin"></i><i class="pin"></i><i class="pin"></i><i class="pin"></i></h5></div>
+            <div class="pdesc">Güvenlik kodunu giriniz</div>
+            <div class="divcaptcha">1111</div>
+            <div class="ppos"><ul class="ppad">
+                <li><a data-no="1">1</a></li><li class="mid"><a data-no="2">2</a></li><li><a data-no="3">3</a></li>
+                <li><a data-no="4">4</a></li><li class="mid"><a data-no="5">5</a></li><li><a data-no="6">6</a></li>
+                <li><a data-no="7">7</a></li><li class="mid"><a data-no="8">8</a></li><li><a data-no="9">9</a></li>
+                <li><a data-no="i" class="iptal">İPTAL</a></li><li class="mid"><a data-no="0">0</a></li><li><a data-no="s" class="sil">SİL</a></li>
+            </ul></div>
+        </div>`;
+
+        // --- 2. MANTIK VE EVENTLER (main.js ve rezervasyon_ekstra.js'den) ---
+
+        $(document).ready(function() {
+            // İlk sayfayı yükle
+            $("#app").html(rezervasyonHTML);
+
+            // Form Gönderimi
+            $(document).on('submit', '#reservationForm', function(e) {
+                e.preventDefault();
+                // Verileri hafızaya al (main.js'deki tempResvOrder mantığı)
+                window.tempResvOrder = {
+                    name: $('#resv-name').val(),
+                    phone: $('#resv-phone').val(),
+                    email: $('#resv-email').val()
+                };
+                // Güvenlik ekranına geç
+                $("#app").html(secure2HTML);
+            });
+
+            // Numpad Tıklamaları (main.js line 1355 civarı)
+            $(document).on("click", ".secure .ppad a", function (e) {
+                e.preventDefault();
+                var no = $(this).data("no");
+                var $h5 = $(".pview h5");
+                var currentText = $h5.text().replace(/\s/g, '');
+                
+                if (no == "i") {
+                    $("#app").html(rezervasyonHTML);
+                } else if (no == "s") {
+                    $h5.html('<i class="pin"></i><i class="pin"></i><i class="pin"></i><i class="pin"></i>');
+                } else if (currentText.length < 4) {
+                    var newNum = currentText + no;
+                    var html = "";
+                    for(var i=0; i<4; i++) {
+                        if(newNum[i]) html += "<i>"+newNum[i]+"</i>";
+                        else html += '<i class="pin"></i>';
+                    }
+                    $h5.html(html);
+                    
+                    // 4 hane dolunca kontrol et (main.js line 1257 mantığı)
+                    if (newNum.length == 4) {
+                        setTimeout(function() {
+                            if (newNum == "1111") {
+                                alert("TEBRİKLER! Rezervasyon başarıyla backend'e gönderilebilir.\n\nVeriler:\n" + JSON.stringify(window.tempResvOrder, null, 2));
+                                // Fatih Abi buraya kendi POST işlemini yazacak
+                            } else {
+                                alert("Hatalı Kod!");
+                                $h5.html('<i class="pin"></i><i class="pin"></i><i class="pin"></i><i class="pin"></i>');
+                            }
+                        }, 300);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
